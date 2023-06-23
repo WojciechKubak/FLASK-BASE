@@ -1,0 +1,92 @@
+[
+   {
+      "id": 6,
+      "first_name": "Alex",
+      "last_name": "Johnson",
+      "position": "Software Engineer",
+      "age": 29,
+      "employment_tenure": 4,
+      "salary": 6500,
+      "performance_rating": {
+         "efficiency": 4,
+         "creativity": 5,
+         "communication": 4
+      },
+      "company_id": 0
+   },
+   {
+      "id": 7,
+      "first_name": "Sophia",
+      "last_name": "Brown",
+      "position": "Marketing Manager",
+      "age": 33,
+      "employment_tenure": 6,
+      "salary": 8000,
+      "performance_rating": {
+         "efficiency": 5,
+         "creativity": 4,
+         "communication": 5
+      },
+      "company_id": 1
+   },
+   {
+      "id": 8,
+      "first_name": "William",
+      "last_name": "Davis",
+      "position": "Sales Manager",
+      "age": 36,
+      "employment_tenure": 7,
+      "salary": 9000,
+      "performance_rating": {
+         "efficiency": 4,
+         "creativity": 3,
+         "communication": 4
+      },
+      "company_id": 1
+   },
+   {
+      "id": 9,
+      "first_name": "Olivia",
+      "last_name": "Wilson",
+      "position": "Financial Analyst",
+      "age": 31,
+      "employment_tenure": 5,
+      "salary": 7000,
+      "performance_rating": {
+         "efficiency": 3,
+         "creativity": 4,
+         "communication": 5
+      },
+      "company_id": 3
+   },
+   {
+      "id": 10,
+      "first_name": "Ethan",
+      "last_name": "Thompson",
+      "position": "Product Manager",
+      "age": 37,
+      "employment_tenure": 8,
+      "salary": 9500,
+      "performance_rating": {
+         "efficiency": 5,
+         "creativity": 5,
+         "communication": 5
+      },
+      "company_id": 5
+   },
+   {
+      "id": 11,
+      "first_name": "Ava",
+      "last_name": "Lee",
+      "position": "Graphic Designer",
+      "age": 27,
+      "employment_tenure": 3,
+      "salary": 5000,
+      "performance_rating": {
+         "efficiency": 4,
+         "creativity": 3,
+         "communication": 4
+      },
+      "company_id": 4
+   }
+]

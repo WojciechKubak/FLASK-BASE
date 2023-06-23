@@ -1,0 +1,92 @@
+[
+   {
+      "id": 0,
+      "first_name": "John",
+      "last_name": "Doe",
+      "position": "Senior Developer",
+      "age": 32,
+      "employment_tenure": 5,
+      "salary": 7000,
+      "performance_rating": {
+         "efficiency": 4,
+         "creativity": 5,
+         "communication": 4
+      },
+      "company_id": 2
+   },
+   {
+      "id": 1,
+      "first_name": "Jane",
+      "last_name": "Smith",
+      "position": "Human Resources Manager",
+      "age": 40,
+      "employment_tenure": 8,
+      "salary": 9000,
+      "performance_rating": {
+         "efficiency": 3,
+         "creativity": 4,
+         "communication": 5
+      },
+      "company_id": 1
+   },
+   {
+      "id": 2,
+      "first_name": "Michael",
+      "last_name": "Johnson",
+      "position": "Sales Representative",
+      "age": 28,
+      "employment_tenure": 3,
+      "salary": 5000,
+      "performance_rating": {
+         "efficiency": 4,
+         "creativity": 3,
+         "communication": 4
+      },
+      "company_id": 3
+   },
+   {
+      "id": 3,
+      "first_name": "Emily",
+      "last_name": "Davis",
+      "position": "Marketing Specialist",
+      "age": 35,
+      "employment_tenure": 6,
+      "salary": 6500,
+      "performance_rating": {
+         "efficiency": 5,
+         "creativity": 4,
+         "communication": 5
+      },
+      "company_id": 2
+   },
+   {
+      "id": 4,
+      "first_name": "David",
+      "last_name": "Wilson",
+      "position": "Accountant",
+      "age": 42,
+      "employment_tenure": 9,
+      "salary": 8000,
+      "performance_rating": {
+         "efficiency": 4,
+         "creativity": 3,
+         "communication": 4
+      },
+      "company_id": 1
+   },
+   {
+      "id": 5,
+      "first_name": "Sarah",
+      "last_name": "Thompson",
+      "position": "Project Manager",
+      "age": 38,
+      "employment_tenure": 7,
+      "salary": 7500,
+      "performance_rating": {
+         "efficiency": 5,
+         "creativity": 5,
+         "communication": 5
+      },
+      "company_id": 3
+   }
+]
