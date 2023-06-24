@@ -1,5 +1,6 @@
 from app.data.organization.company import Company
 from typing import Any
+import logging
 
 
 class TestCompanyStrAndRepr:
