@@ -1,3 +1,4 @@
+from app.data.layers.validator import CompanyJsonValidator
 from typing import Any
 import pytest
 
@@ -15,7 +16,7 @@ def company_empty_test_path() -> str:
 @pytest.fixture
 def company_record_test() -> dict[str, Any]:
     return {
-        "id": 2,
+        "id": "2",
         "company_name": "ABC Corporation",
         "street": "123 Main St",
         "city": "New York",
@@ -42,3 +43,19 @@ def employee_record_test() -> dict[str, Any]:
       },
       "company_id": 2
     }
+
+
+@pytest.fixture
+def company_validator_constraints() -> dict[str, Any]:
+    return {
+        'company_name_regex': r'^[a-zA-Z0-9 .]+$',
+        'street_regex': r'^[1-9][0-9]{2} [A-Z][a-z]+(?: [A-Z][a-z]+)*$',
+        'city_regex': r'^([A-Z][a-z]+)+(?: ([A-Z][a-z]+)+)*$',
+        'state_regex': r'^[A-Z]+$',
+        'country_regex': r'^[A-Za-z]+(?: [A-Za-z]+)*$',
+    }
+
+
+@pytest.fixture
+def company_validator_obj(company_validator_constraints: dict[str, Any]) -> CompanyJsonValidator:
+    return CompanyJsonValidator(**company_validator_constraints)
