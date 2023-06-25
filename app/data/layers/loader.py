@@ -20,6 +20,6 @@ class JsonLoader(Loader):
             raise AttributeError('Incorrect file extension.')
         try:
             with open(path, 'r', encoding='utf-8') as json_data:
-                return json.load(json_data)
+                return json.load(json_data, parse_int=str, parse_float=str)
         except Exception as e:
             raise FileNotFoundError(f'File not found: {e}.')
