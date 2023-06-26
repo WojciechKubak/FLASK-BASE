@@ -5,7 +5,7 @@ import logging
 
 class TestCompanyStrAndRepr:
 
-    def test_company_str_and_repr(self, company_record_test: dict[str, Any]) -> None:
+    def test_company_str_and_repr(self, company_record_test):
         company = Company.from_dict(company_record_test)
         expected_result = f"""
             ID: 2

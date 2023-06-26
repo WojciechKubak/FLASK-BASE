@@ -4,7 +4,7 @@ from typing import Any
 
 class TestEmployeeStrAndRepr:
 
-    def test_employee_str_and_repr(self, employee_record_test: dict[str, Any]) -> None:
+    def test_employee_str_and_repr(self, employee_record_test):
         employee = Employee.from_dict(employee_record_test)
         expected_result = """
             ID: 0
