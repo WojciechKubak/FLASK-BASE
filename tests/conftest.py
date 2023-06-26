@@ -1,3 +1,5 @@
+from app.data.factory.factory import \
+    FromJsonWithValidationToEmployeeDataFactory, FromJsonWithValidationToCompanyDataFactory
 from app.data.layers.validator import CompanyJsonValidator
 from typing import Any
 import pytest
@@ -9,8 +11,18 @@ def company_test_path() -> str:
 
 
 @pytest.fixture
+def employee_test_path() -> str:
+    return 'tests/example_data/employee_data_test.json'
+
+
+@pytest.fixture
 def company_empty_test_path() -> str:
     return 'tests/example_data/company_data_empty_test.json'
+
+
+@pytest.fixture
+def employee_empty_test_path() -> str:
+    return 'tests/example_data/employee_data_empty_test'
 
 
 @pytest.fixture
@@ -57,5 +69,24 @@ def company_validator_constraints() -> dict[str, Any]:
 
 
 @pytest.fixture
+def employee_validator_constraints() -> dict[str, Any]:
+    return {
+        'first_name_regex': r'^[A-Z][a-z]+$',
+        'last_name_regex': r'^[A-Z][a-z]+$',
+        'position_regex': r'^([A-Z][a-z]+)+(?: ([A-Z][a-z]+)+)*$',
+    }
+
+
+@pytest.fixture
 def company_validator_obj(company_validator_constraints: dict[str, Any]) -> CompanyJsonValidator:
     return CompanyJsonValidator(**company_validator_constraints)
+
+
+@pytest.fixture
+def company_data_factory(company_test_path, company_validator_constraints):
+    return FromJsonWithValidationToCompanyDataFactory(company_test_path, company_validator_constraints)
+
+
+@pytest.fixture
+def employee_data_factory(employee_validator_constraints, employee_test_path):
+    return FromJsonWithValidationToEmployeeDataFactory(employee_test_path, employee_validator_constraints)
