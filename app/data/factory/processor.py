@@ -3,6 +3,7 @@ from app.data.factory.factory import DataFactoryType, DataFactory, \
 from dataclasses import dataclass
 from typing import Self, Any
 
+
 @dataclass
 class DataProcessor:
     data_factory: DataFactory

@@ -1,17 +1,9 @@
 from app.data.organization.employee import Employee
-from typing import Any
 from decimal import Decimal
-import pytest
+from typing import Any
 
 
-class TestEmployeeFromDict:
-
-    @pytest.mark.skip('This is not prepared to be tested.')
-    def test_when_data_is_not_correct(self):
-        with pytest.raises(AttributeError) as err:
-            Employee.from_dict({})
-        assert str(err.value).startswith('Data is not correct.')
-
-    def test_when_data_is_correct(self, employee_record_test):
-        employee = Employee.from_dict(employee_record_test)
-        assert employee.salary == Decimal('7000')
+def test_when_data_is_correct(employee_record_test: dict[str, Any]) -> None:
+    result = Employee.from_dict(employee_record_test)
+    assert isinstance(result, Employee)
+    assert Decimal('7000') == result.salary

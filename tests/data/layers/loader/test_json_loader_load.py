@@ -4,7 +4,7 @@ import pytest
 
 class TestJsonLoaderLoadFailure:
 
-    def test_when_path_has_incorrect_extension(self, company_test_path):
+    def test_when_path_has_incorrect_extension(self, company_test_path: str) -> None:
         with pytest.raises(AttributeError) as err:
             JsonLoader(f'{company_test_path}nn').load()
         assert 'Incorrect file extension.' == str(err.value)
@@ -17,11 +17,11 @@ class TestJsonLoaderLoadFailure:
 
 class TestJsonLoaderLoaderSuccess:
 
-    def test_when_loaded_json_is_empty(self, company_empty_test_path):
-        result = JsonLoader(company_empty_test_path).load()
+    def test_when_loaded_json_is_empty(self, empty_data_test_path: str) -> None:
+        result = JsonLoader(empty_data_test_path).load()
         assert 0 == len(result)
 
-    def test_when_loaded_json_contains_data(self, company_test_path):
+    def test_when_loaded_json_contains_data(self, company_test_path: str) -> None:
         result = JsonLoader(company_test_path).load()
         assert 2 == len(result)
         assert all(len(record) == 7 for record in result)
