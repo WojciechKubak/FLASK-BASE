@@ -6,6 +6,7 @@
       "position": "Senior Developer",
       "age": 32,
       "employment_tenure": 5,
+      "department": "Research and Development",
       "salary": 7000,
       "performance_rating": {
          "efficiency": 4,
@@ -21,6 +22,7 @@
       "position": "Human Resources Manager",
       "age": 40,
       "employment_tenure": 8,
+      "department": "Human Resources",
       "salary": 9000,
       "performance_rating": {
          "efficiency": 3,
@@ -36,6 +38,7 @@
       "position": "Sales Representative",
       "age": 28,
       "employment_tenure": 3,
+      "department": "Sales and Marketing",
       "salary": 5000,
       "performance_rating": {
          "efficiency": 4,
@@ -51,6 +54,7 @@
       "position": "Marketing Specialist",
       "age": 35,
       "employment_tenure": 6,
+      "department": "Sales and Marketing",
       "salary": 6500,
       "performance_rating": {
          "efficiency": 5,
@@ -66,6 +70,7 @@
       "position": "Accountant",
       "age": 42,
       "employment_tenure": 9,
+      "department": "Finance and Accounting",
       "salary": 8000,
       "performance_rating": {
          "efficiency": 4,
@@ -81,6 +86,7 @@
       "position": "Project Manager",
       "age": 38,
       "employment_tenure": 7,
+      "department": "Research and Development",
       "salary": 7500,
       "performance_rating": {
          "efficiency": 5,

@@ -9,6 +9,7 @@ def call_employee_processor() -> None:
         'first_name_regex': r'^[A-Z][a-z]+$',
         'last_name_regex': r'^[A-Z][a-z]+$',
         'position_regex': r'^([A-Z][a-z]+)+(?: ([A-Z][a-z]+)+)*$',
+        'department_regex': r'([A-Za-z\s&]+)',
     }
     employee_processor = DataProcessor.create_processor(
         DataFactoryType.EMPLOYEE_FACTORY,

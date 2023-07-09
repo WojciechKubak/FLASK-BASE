@@ -11,6 +11,7 @@ class Employee:
     position: str
     age: int
     employment_tenure: int
+    department: str
     salary: Decimal
     performance_rating: dict[str, int]
     company_id: int
@@ -22,6 +23,7 @@ Last Name: {self.last_name}
 Position: {self.position}
 Age: {self.age}
 Employment Tenure: {self.employment_tenure}
+Department: {self.department}
 Salary: {self.salary}
 Performance Rating: {self.performance_rating}
 Company ID: {self.company_id}"""

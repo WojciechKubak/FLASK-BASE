@@ -43,6 +43,7 @@ def employee_record_test() -> dict[str, Any]:
       "position": "Senior Developer",
       "age": "32",
       "employment_tenure": "5",
+      "department": "Research and Development",
       "salary": "7000",
       "performance_rating": {
          "efficiency": 4,
@@ -70,6 +71,7 @@ def employee_validator_constraints() -> dict[str, Any]:
         'first_name_regex': r'^[A-Z][a-z]+$',
         'last_name_regex': r'^[A-Z][a-z]+$',
         'position_regex': r'^([A-Z][a-z]+)+(?: ([A-Z][a-z]+)+)*$',
+        'department_regex': r'([A-Za-z\s&]+)',
     }
 
 

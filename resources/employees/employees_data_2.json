@@ -6,6 +6,7 @@
       "position": "Software Engineer",
       "age": 29,
       "employment_tenure": 4,
+      "department": "Research and Development",
       "salary": 6500,
       "performance_rating": {
          "efficiency": 4,
@@ -21,6 +22,7 @@
       "position": "Marketing Manager",
       "age": 33,
       "employment_tenure": 6,
+      "department": "Sales and Marketing",
       "salary": 8000,
       "performance_rating": {
          "efficiency": 5,
@@ -36,6 +38,7 @@
       "position": "Sales Manager",
       "age": 36,
       "employment_tenure": 7,
+      "department": "Sales and Marketing",
       "salary": 9000,
       "performance_rating": {
          "efficiency": 4,
@@ -51,6 +54,7 @@
       "position": "Financial Analyst",
       "age": 31,
       "employment_tenure": 5,
+      "department": "Finance and Accounting",
       "salary": 7000,
       "performance_rating": {
          "efficiency": 3,
@@ -66,6 +70,7 @@
       "position": "Product Manager",
       "age": 37,
       "employment_tenure": 8,
+      "department": "Finance and Accounting",
       "salary": 9500,
       "performance_rating": {
          "efficiency": 5,
@@ -81,6 +86,7 @@
       "position": "Graphic Designer",
       "age": 27,
       "employment_tenure": 3,
+      "department": "Research and Development",
       "salary": 5000,
       "performance_rating": {
          "efficiency": 4,

@@ -69,6 +69,7 @@ class EmployeeJsonValidator(Validator):
     first_name_regex: str
     last_name_regex: str
     position_regex: str
+    department_regex: str
 
     def validate(self, data: dict[str, Any]) -> dict[str, Any]:
         constraints = {
@@ -78,6 +79,7 @@ class EmployeeJsonValidator(Validator):
             'position': lambda x: self.match_regex(x, self.position_regex),
             'age': lambda x: self.match_if_string_contains_non_negative_number(x, int),
             'employment_tenure': lambda x: self.match_if_string_contains_non_negative_number(x, int),
+            'department': lambda x: self.match_regex(x, self.department_regex),
             'salary': lambda x: self.match_if_string_contains_non_negative_number(x, float),
             'performance_rating': lambda x: all(
                 self.match_if_string_contains_non_negative_number(str(y), int) for y in x.values()),

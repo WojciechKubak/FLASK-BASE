@@ -11,6 +11,7 @@ Last Name: Doe
 Position: Senior Developer
 Age: 32
 Employment Tenure: 5
+Department: Research and Development
 Salary: 7000
 Performance Rating: {'efficiency': 4, 'creativity': 5, 'communication': 4}
 Company ID: 2"""
