@@ -1,9 +1,11 @@
-from app.data.factory.factory import DataFactoryType
-from app.data.factory.processor import DataProcessor
+from app.service.additionals.repository import Repository
+from app.service.employees import \
+    FetchType, EmployeeRepository, ProxyEmployeeRepository, EmployeeService
+from app.service.companies import CompanyRepository, CompanyService
 from typing import Final
 
 
-def call_employee_processor() -> None:
+def call_employee_repository() -> Repository:
     EMPLOYEE_DATA_PATH: Final[str] = '../resources/employees/employees_data_1.json'
     employee_constraints = {
         'first_name_regex': r'^[A-Z][a-z]+$',
@@ -11,15 +13,10 @@ def call_employee_processor() -> None:
         'position_regex': r'^([A-Z][a-z]+)+(?: ([A-Z][a-z]+)+)*$',
         'department_regex': r'([A-Za-z\s&]+)',
     }
-    employee_processor = DataProcessor.create_processor(
-        DataFactoryType.EMPLOYEE_FACTORY,
-        EMPLOYEE_DATA_PATH,
-        employee_constraints
-    )
-    print(employee_processor.process())
+    return EmployeeRepository(EMPLOYEE_DATA_PATH, employee_constraints)
 
 
-def call_company_processor() -> None:
+def call_company_repository() -> Repository:
     COMPANY_DATA_PATH: Final[str] = '../resources/companies/companies_data_1.json'
     company_constraints = {
         'company_name_regex': r'^[a-zA-Z0-9 .]+$',
@@ -28,14 +25,14 @@ def call_company_processor() -> None:
         'state_regex': r'^[A-Z]+$',
         'country_regex': r'^[A-Za-z]+(?: [A-Za-z]+)*$',
     }
-    company_processor = DataProcessor.create_processor(
-        DataFactoryType.COMPANY_FACTORY,
-        COMPANY_DATA_PATH,
-        company_constraints
-    )
-    print(company_processor.process())
+    return CompanyRepository(COMPANY_DATA_PATH, company_constraints)
 
 
 if __name__ == '__main__':
-    call_employee_processor()
-    call_company_processor()
+    employee_repository = call_employee_repository()
+    company_repository = call_company_repository()
+
+    employee_proxy_repo_lazy = ProxyEmployeeRepository(employee_repository, company_repository, FetchType.LAZY)
+    employee_proxy_repo_eager = ProxyEmployeeRepository(employee_repository, company_repository, FetchType.EAGER)
+
+

@@ -26,5 +26,6 @@ Country: {self.country}"""
 
     @classmethod
     def from_dict(cls: Self, data: dict[str, Any]) -> Self:
+        data['id'] = int(data['id'])
         return cls(**data)
 
