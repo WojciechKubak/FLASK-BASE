@@ -1,6 +1,6 @@
 from typing import Any
 from unittest.mock import patch, PropertyMock
-from app.data.organization.employee import Employee
+from app.data.models.employee import Employee
 import pytest
 
 

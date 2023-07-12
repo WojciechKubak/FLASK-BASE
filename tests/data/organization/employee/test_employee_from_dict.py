@@ -1,4 +1,4 @@
-from app.data.organization.employee import Employee
+from app.data.models.employee import Employee
 from decimal import Decimal
 from typing import Any
 

@@ -1,5 +1,5 @@
 from app.data.layers.converter import EmployeeConverter
-from app.data.organization.employee import Employee
+from app.data.models.employee import Employee
 from typing import Any
 
 

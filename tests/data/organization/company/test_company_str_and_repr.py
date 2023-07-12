@@ -1,4 +1,4 @@
-from app.data.organization.company import Company
+from app.data.models.company import Company
 from typing import Any
 import pytest
 

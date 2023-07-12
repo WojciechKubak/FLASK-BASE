@@ -2,7 +2,7 @@ from app.data.layers.loader import JsonLoader
 from app.data.layers.validator import CompanyJsonValidator
 from app.data.layers.converter import CompanyConverter
 from app.data.factory.processor import DataProcessor
-from app.data.organization.company import Company
+from app.data.models.company import Company
 from unittest.mock import MagicMock
 from typing import Any
 

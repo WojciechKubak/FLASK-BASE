@@ -1,6 +1,6 @@
 from app.service.additionals.repository import Repository
 from app.data.factory.processor import DataProcessor, DataFactoryType
-from app.data.organization.company import Company
+from app.data.models.company import Company
 from dataclasses import dataclass, field
 from typing import Any, Optional
 
