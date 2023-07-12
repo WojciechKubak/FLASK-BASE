@@ -83,7 +83,7 @@ class EmployeeJsonValidator(Validator):
             'salary': lambda x: self.match_if_string_contains_non_negative_number(x, float),
             'performance_rating': lambda x: all(
                 self.match_if_string_contains_non_negative_number(str(y), int) for y in x.values()),
-            'company_id': lambda x: self.match_if_string_contains_non_negative_number(x, int),
+            'company': lambda x: self.match_if_string_contains_non_negative_number(x, int),
         }
         for key, constraint in constraints.items():
             if result := self.validate_value(data, key, constraint):

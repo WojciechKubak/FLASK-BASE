@@ -4,7 +4,7 @@ from typing import Any, Self
 
 @dataclass(frozen=True, order=True)
 class Company:
-    id: int
+    id_: int
     company_name: str
     street: str
     city: str
@@ -13,7 +13,7 @@ class Company:
     country: str
 
     def __str__(self) -> str:
-        return f"""ID: {self.id}
+        return f"""ID: {self.id_}
 Company Name: {self.company_name}
 Street: {self.street}
 City: {self.city}
@@ -26,6 +26,6 @@ Country: {self.country}"""
 
     @classmethod
     def from_dict(cls: Self, data: dict[str, Any]) -> Self:
-        data['id'] = int(data['id'])
+        data['id_'] = int(data.pop('id'))
         return cls(**data)
 

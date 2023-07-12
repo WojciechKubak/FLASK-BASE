@@ -50,17 +50,17 @@ class EmployeeRepository(Repository):
         return self.employees
 
     def find_by_id(self, id_: int) -> Optional[Any]:
-        if filtered := [employee for employee in self.employees if employee.id == id_]:
+        if filtered := [employee for employee in self.employees if employee.id_ == id_]:
             return filtered[0]
         return None
 
     def add_or_update(self, record: Any) -> None:
-        if filtered_employees := [employee for employee in self.employees if employee.id == record.id]:
+        if filtered_employees := [employee for employee in self.employees if employee.id_ == record.id_]:
             self.employees.remove(filtered_employees[0])
         self.employees.append(record)
 
     def delete(self, id_: int) -> None:
-        self.employees = [employee for employee in self.employees if employee.id != id_]
+        self.employees = [employee for employee in self.employees if employee.id_ != id_]
 
 
 @dataclass
@@ -92,7 +92,7 @@ class ProxyEmployeeRepository(Repository):
 
     @staticmethod
     def _get_employee_with_company_data(employee: Employee, company_repo: Repository) -> Employee:
-        new_employee_data = employee.__dict__ | {'company_id': company_repo.find_by_id(employee.company_id)}
+        new_employee_data = employee.__dict__ | {'company_id': company_repo.find_by_id(employee.company)}
         return Employee.from_dict(new_employee_data)
 
 

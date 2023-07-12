@@ -22,17 +22,17 @@ class CompanyRepository(Repository):
         return self.companies
 
     def find_by_id(self, id_: int) -> Optional[Any]:
-        if filtered := [company for company in self.companies if company.id == id_]:
+        if filtered := [company for company in self.companies if company.id_ == id_]:
             return filtered[0]
         return None
 
     def add_or_update(self, record: Any) -> None:
-        if filtered_companies := [company for company in self.companies if company.id == record.id]:
+        if filtered_companies := [company for company in self.companies if company.id_ == record.id_]:
             self.companies.remove(filtered_companies[0])
         self.companies.append(record)
 
     def delete(self, id_: int) -> None:
-        self.companies = [company for company in self.companies if company.id != id_]
+        self.companies = [company for company in self.companies if company.id_ != id_]
 
 
 @dataclass

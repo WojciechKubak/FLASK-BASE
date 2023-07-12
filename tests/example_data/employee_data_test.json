@@ -13,7 +13,7 @@
          "creativity": 5,
          "communication": 4
       },
-      "company_id": 2
+      "company": 2
    },
    {
       "id": 1,
@@ -29,6 +29,6 @@
          "creativity": 4,
          "communication": 5
       },
-      "company_id": 1
+      "company": 1
    }
 ]

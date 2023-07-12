@@ -50,7 +50,7 @@ def employee_record_test() -> dict[str, Any]:
          "creativity": 5,
          "communication": 4
       },
-      "company_id": "2"
+      "company": "2"
     }
 
 

@@ -13,7 +13,7 @@
          "creativity": 5,
          "communication": 4
       },
-      "company_id": 0
+      "company": 0
    },
    {
       "id": 7,
@@ -29,7 +29,7 @@
          "creativity": 4,
          "communication": 5
       },
-      "company_id": 1
+      "company": 1
    },
    {
       "id": 8,
@@ -45,7 +45,7 @@
          "creativity": 3,
          "communication": 4
       },
-      "company_id": 1
+      "company": 1
    },
    {
       "id": 9,
@@ -61,7 +61,7 @@
          "creativity": 4,
          "communication": 5
       },
-      "company_id": 3
+      "company": 3
    },
    {
       "id": 10,
@@ -77,7 +77,7 @@
          "creativity": 5,
          "communication": 5
       },
-      "company_id": 5
+      "company": 5
    },
    {
       "id": 11,
@@ -93,6 +93,6 @@
          "creativity": 3,
          "communication": 4
       },
-      "company_id": 4
+      "company": 4
    }
 ]
