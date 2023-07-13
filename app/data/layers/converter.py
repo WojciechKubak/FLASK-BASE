@@ -1,5 +1,5 @@
-from app.data.models.company import Company
-from app.data.models.employee import Employee
+from app.data.model.company import Company
+from app.data.model.employee import Employee
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Any

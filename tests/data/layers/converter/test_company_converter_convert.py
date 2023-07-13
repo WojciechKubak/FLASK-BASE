@@ -1,5 +1,5 @@
 from app.data.layers.converter import CompanyConverter
-from app.data.models.company import Company
+from app.data.model.company import Company
 from typing import Any
 
 

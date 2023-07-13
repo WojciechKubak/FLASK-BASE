@@ -2,7 +2,7 @@ from app.data.layers.loader import JsonLoader
 from app.data.layers.validator import EmployeeJsonValidator
 from app.data.layers.converter import EmployeeConverter
 from app.data.factory.processor import DataProcessor
-from app.data.models.employee import Employee
+from app.data.model.employee import Employee
 from unittest.mock import MagicMock
 from typing import Any
 

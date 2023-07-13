@@ -1,6 +1,6 @@
 from app.service.additionals.repository import Repository
 from app.data.factory.processor import DataProcessor, DataFactoryType
-from app.data.models.employee import Employee
+from app.data.model.employee import Employee
 from app.service.additionals.exporter import DataExporter
 from dataclasses import dataclass, field
 from typing import Optional, Any
