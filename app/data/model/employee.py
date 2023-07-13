@@ -41,5 +41,20 @@ Company ID: {self.company}"""
         data['id_'] = int(data.pop('id'))
         data['age'] = int(data['age'])
         data['salary'] = Decimal(data['salary'])
-        # data['company_id'] =
+        if isinstance(data['company'], str):
+            data['company'] = int(data['company'])
         return cls(**data)
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            'id': self.id_,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'position': self.position,
+            'age': self.age,
+            'employment_tenure': self.employment_tenure,
+            'department': self.department,
+            'salary': self.salary,
+            'performance_rating': self.performance_rating,
+            'company': self.company
+        }

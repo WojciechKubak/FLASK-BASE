@@ -1,7 +1,7 @@
-from app.service.additionals.repository import Repository
-from app.service.employees import \
-    FetchType, EmployeeRepository, ProxyEmployeeRepository, EmployeeService
-from app.service.companies import CompanyRepository, CompanyService
+from app.service.repository.repository import \
+    Repository, EmployeeRepository, CompanyRepository, ProxyEmployeeRepository, FetchType
+from app.service.service.employee import EmployeeService
+from app.service.service.company import CompanyService
 from typing import Final
 
 
@@ -34,5 +34,7 @@ if __name__ == '__main__':
 
     employee_proxy_repo_lazy = ProxyEmployeeRepository(employee_repository, company_repository, FetchType.LAZY)
     employee_proxy_repo_eager = ProxyEmployeeRepository(employee_repository, company_repository, FetchType.EAGER)
+
+    employee_service = EmployeeService(employee_proxy_repo_eager)
 
 
