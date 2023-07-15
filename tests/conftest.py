@@ -48,7 +48,7 @@ def employee_record_test() -> dict[str, Any]:
       "performance_rating": {
          "efficiency": 4,
          "creativity": 5,
-         "communication": 4
+         "communication": 3
       },
       "company": "2"
     }

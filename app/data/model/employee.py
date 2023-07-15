@@ -17,9 +17,25 @@ class Employee:
     performance_rating: dict[str, int]
     company: int | Company
 
-    def get_performance_average(self) -> float:
+    def get_performance_average(self) -> Any:
         ratings = list(self.performance_rating.values())
-        return sum(ratings) / len(ratings)
+        if len(ratings) == 1:
+            return ratings[0]
+        return sum(ratings) / len(ratings) if ratings else None
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            'id': self.id_,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'position': self.position,
+            'age': self.age,
+            'employment_tenure': self.employment_tenure,
+            'department': self.department,
+            'salary': self.salary,
+            'performance_rating': self.performance_rating,
+            'company': self.company
+        }
 
     def __str__(self) -> str:
         return f"""ID: {self.id_}
@@ -44,17 +60,3 @@ Company ID: {self.company}"""
         if isinstance(data['company'], str):
             data['company'] = int(data['company'])
         return cls(**data)
-
-    def to_dict(self) -> dict[str, Any]:
-        return {
-            'id': self.id_,
-            'first_name': self.first_name,
-            'last_name': self.last_name,
-            'position': self.position,
-            'age': self.age,
-            'employment_tenure': self.employment_tenure,
-            'department': self.department,
-            'salary': self.salary,
-            'performance_rating': self.performance_rating,
-            'company': self.company
-        }
