@@ -1,8 +1,8 @@
+from app.data.model.employee import Employee
 from app.data.factory.factory import \
     FromJsonWithValidationToEmployeeDataFactory, FromJsonWithValidationToCompanyDataFactory
 from app.data.layers.validator import CompanyJsonValidator, EmployeeJsonValidator
 from typing import Any
-
 import pytest
 
 
@@ -52,6 +52,11 @@ def employee_record_test() -> dict[str, Any]:
       },
       "company": "2"
     }
+
+
+@pytest.fixture
+def employee_test_class_obj(employee_record_test: dict[str, Any]) -> Employee:
+    return Employee.from_dict(employee_record_test)
 
 
 @pytest.fixture

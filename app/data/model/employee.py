@@ -1,4 +1,3 @@
-from app.data.model.company import Company
 from dataclasses import dataclass
 from decimal import Decimal
 from typing import Any, Self
@@ -15,7 +14,7 @@ class Employee:
     department: str
     salary: Decimal
     performance_rating: dict[str, int]
-    company: int | Company
+    company: int
 
     def get_performance_average(self) -> Any:
         ratings = list(self.performance_rating.values())
@@ -57,6 +56,5 @@ Company ID: {self.company}"""
         data['id_'] = int(data.pop('id'))
         data['age'] = int(data['age'])
         data['salary'] = Decimal(data['salary'])
-        if isinstance(data['company'], str):
-            data['company'] = int(data['company'])
+        data['company'] = int(data['company'])
         return cls(**data)
