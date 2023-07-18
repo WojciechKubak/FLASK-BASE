@@ -93,33 +93,32 @@ class EmployeeRepository(Repository):
 
 
 @dataclass
-class ProxyEmployeeRepository(Repository):
-    employee_repository: Repository
-    company_repository: Repository
+class ProxyCompanyRepository(Repository):
+    company_repository: CompanyRepository
+    employee_repository: EmployeeRepository
     fetch_type: FetchType
 
     def set_fetch_type(self, new_fetch_type: FetchType) -> None:
         self.fetch_type = new_fetch_type
 
     def find_all(self) -> list[Any]:
-        employees = self.employee_repository.find_all()
-        if self.fetch_type == FetchType.LAZY:
-            return employees
-        return [self._get_employee_with_company_data(employee, self.company_repository) for employee in employees]
+        return [ProxyCompanyRepository.get_employee_data(
+            company, self.employee_repository, only_id=self.fetch_type == FetchType.LAZY)
+            for company in self.company_repository.find_all()]
 
-    def find_by_id(self, id_: int) -> Optional[Any]:
-        result = self.employee_repository.find_by_id(id_)
+    def find_by_id(self, id_: int) -> Any:
+        result = self.company_repository.find_by_id(id_)
         if self.fetch_type == FetchType.LAZY:
             return result
-        return self._get_employee_with_company_data(result, self.company_repository) if result else None
+        return self.get_employees(result, self.employee_repository) if result else None
 
-    def add_or_update(self, record: Employee) -> None:
-        self.employee_repository.add_or_update(record)
+    def add_or_update(self, record: Any) -> None:
+        self.company_repository.add_or_update(record)
 
     def delete(self, id_: int) -> None:
-        self.employee_repository.delete(id_)
+        self.company_repository.delete(id_)
 
     @staticmethod
-    def _get_employee_with_company_data(employee: Employee, company_repo: Repository) -> Employee:
-        new_employee_data = employee.to_dict() | {'company': company_repo.find_by_id(employee.company)}
-        return Employee.from_dict(new_employee_data)
+    def get_employee_data(company: Company, employees_repository: EmployeeRepository, only_id: bool = True) -> Company:
+        employees = [e.id_ if only_id else e for e in employees_repository.find_all() if e.company == company.id_]
+        return Company.from_dict(company.to_dict() | {'employees': employees})

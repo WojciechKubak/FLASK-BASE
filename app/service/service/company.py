@@ -1,4 +1,5 @@
 from app.service.repository.repository import Repository
+from app.service.additional.exporter import DataExporter, FileExportFormat
 from dataclasses import dataclass
 from typing import Any, Optional
 
@@ -23,5 +24,5 @@ class CompanyService:
             raise ValueError('Id must be non-negative number.')
         self.company_repository.delete(id_)
 
-
-
+    def export_data(self, path: str, export_type: FileExportFormat) -> None:
+        DataExporter().export(self.find_all(), path, export_type)
