@@ -22,7 +22,7 @@ def empty_data_test_path() -> str:
 
 
 @pytest.fixture
-def company_record_test() -> dict[str, Any]:
+def company_record_data() -> dict[str, Any]:
     return {
         "id": "2",
         "company_name": "ABC Corporation",
@@ -55,7 +55,7 @@ def employee_record_data() -> dict[str, Any]:
 
 
 @pytest.fixture
-def employee_obj(employee_record_data) -> Employee:
+def employee_obj(employee_record_data: dict[str, Any]) -> Employee:
     return Employee.from_dict(employee_record_data)
 
 
