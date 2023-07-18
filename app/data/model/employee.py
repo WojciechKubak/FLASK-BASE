@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from decimal import Decimal
-from typing import Any, Self
+from typing import Any, Self, Callable
 
 
 @dataclass(frozen=True, order=True)
@@ -21,6 +21,12 @@ class Employee:
         if len(ratings) == 1:
             return ratings[0]
         return sum(ratings) / len(ratings) if ratings else None
+
+    def filter_by_criterion(self, criterion: tuple[str, Callable[[Any], bool]]) -> bool:
+        attr_name, expression = criterion
+        if attr_name not in self.__dict__.keys():
+            raise AttributeError('Key not found.')
+        return expression(getattr(self, attr_name))
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -57,4 +63,5 @@ Company ID: {self.company}"""
         data['age'] = int(data['age'])
         data['salary'] = Decimal(data['salary'])
         data['company'] = int(data['company'])
+        data['performance_rating'] = {k: int(v) for k, v in data['performance_rating'].items()}
         return cls(**data)

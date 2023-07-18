@@ -3,7 +3,7 @@ import pytest
 
 
 @pytest.fixture
-def expected_employee_str_and_repr() -> str:
+def employee_str_and_repr() -> str:
     return """ID: 0
 First Name: John
 Last Name: Doe
@@ -16,6 +16,6 @@ Performance Rating: {'efficiency': 4, 'creativity': 5, 'communication': 3}
 Company ID: 2"""
 
 
-def test_employee_str_and_repr(employee_test_class_obj: Employee, expected_employee_str_and_repr: str) -> None:
-    assert expected_employee_str_and_repr == employee_test_class_obj.__str__()
-    assert expected_employee_str_and_repr == employee_test_class_obj.__repr__()
+def test_employee_str_and_repr(employee_obj: Employee, employee_str_and_repr: str) -> None:
+    assert employee_str_and_repr == employee_obj.__str__()
+    assert employee_str_and_repr == employee_obj.__repr__()

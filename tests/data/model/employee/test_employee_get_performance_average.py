@@ -12,9 +12,10 @@ import pytest
     ]
 )
 def test_employee_get_performance_average(
-        employee_record_test: dict[str, Any],
+        employee_record_data: dict[str, Any],
         test_input: dict[str, Any],
         expected: Any
 ) -> None:
-    employee_record_test['performance_rating'] = test_input
-    assert expected == Employee.from_dict(employee_record_test).get_performance_average()
+    employee_record_data['performance_rating'] = test_input
+    employee = Employee.from_dict(employee_record_data)
+    assert expected == employee.get_performance_average()

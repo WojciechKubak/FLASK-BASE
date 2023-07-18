@@ -35,7 +35,7 @@ def company_record_test() -> dict[str, Any]:
 
 
 @pytest.fixture
-def employee_record_test() -> dict[str, Any]:
+def employee_record_data() -> dict[str, Any]:
     return {
       "id": "0",
       "first_name": "John",
@@ -55,8 +55,8 @@ def employee_record_test() -> dict[str, Any]:
 
 
 @pytest.fixture
-def employee_test_class_obj(employee_record_test: dict[str, Any]) -> Employee:
-    return Employee.from_dict(employee_record_test)
+def employee_obj(employee_record_data) -> Employee:
+    return Employee.from_dict(employee_record_data)
 
 
 @pytest.fixture

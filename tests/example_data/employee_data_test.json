@@ -9,9 +9,9 @@
       "department": "Research and Development",
       "salary": 7000,
       "performance_rating": {
-         "efficiency": 4,
+         "efficiency": 5,
          "creativity": 5,
-         "communication": 4
+         "communication": 5
       },
       "company": 2
    },
