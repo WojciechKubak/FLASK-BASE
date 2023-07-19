@@ -1,17 +1,10 @@
 from app.service.repository.repository import Repository
 from app.data.model.employee import Employee
-from app.service.additional.exporter import DataExporter
+from app.service.additional.exporter import DataExporter, FileExportFormat
 from dataclasses import dataclass
-from typing import Optional, Any
-from enum import Enum, auto
+from typing import Optional, Any, Callable
 from decimal import Decimal
 from collections import defaultdict
-
-
-class FileExportFormat(Enum):
-    CSV_FILE = auto()
-    TXT_FILE = auto()
-    JSON_FILE = auto()
 
 
 @dataclass
@@ -34,18 +27,18 @@ class EmployeeService:
             raise ValueError('Id must be non-negative number.')
         self.employee_repository.delete(id_)
 
-    def filter_by(self, element: dict[str, str]) -> list[Employee]:
-        ...
+    def filter_by(self, criterion: tuple[str, Callable[[Any], bool]]) -> list[Employee]:
+        return [employee for employee in self.employee_repository.find_all() if employee.filter_by_criterion(criterion)]
 
-    def get_employees_overall_performance(self) -> dict[Employee, float]:
-        return {employee: employee.get_performance_average() for employee in self.employee_repository.find_all()}
+    def get_employees_overall_performance(self) -> dict[int, float]:
+        return {employee.id_: employee.get_performance_average() for employee in self.employee_repository.find_all()}
 
     def get_best_and_worst_performing_employees(self) -> tuple[Employee, Employee]:
-        employee_scores = {employee: employee.get_performance_average()
+        employee_scores = {employee.id_: employee.get_performance_average()
                            for employee in self.employee_repository.find_all()}
-        max_ = max(employee_scores, key=lambda x: x[1])
-        min_ = min(employee_scores, key=lambda x: x[1])
-        return max_, min_
+        max_ = max(employee_scores, key=employee_scores.get)
+        min_ = min(employee_scores, key=employee_scores.get)
+        return self.find_by_id(max_), self.find_by_id(min_)
 
     def get_department_performance_overview(self) -> dict[str, float]:
         departments_performance = defaultdict(list)
@@ -69,12 +62,5 @@ class EmployeeService:
             departments_salaries[employee.department].append(employee.salary)
         return {department: sum(salaries)/len(salaries) for department, salaries in departments_salaries.items()}
 
-    def export_data(self, export_type: FileExportFormat, path: str) -> None:
-        match export_type:
-            case FileExportFormat.JSON_FILE:
-                DataExporter.export_to_json(self.employee_repository.find_all(), path)
-            case FileExportFormat.CSV_FILE:
-                DataExporter.export_to_json(self.employee_repository.find_all(), path)
-            case FileExportFormat.TXT_FILE:
-                DataExporter.export_to_json(self.employee_repository.find_all(), path)
-
+    def export_data(self, path: str, export_type: FileExportFormat) -> None:
+        DataExporter().export(self.find_all(), path, export_type)
