@@ -2,7 +2,7 @@ from app.service.service.company import CompanyService
 import pytest
 
 
-class TestCompanyServiceFindById:
+class TestFindById:
 
     def test_when_company_id_is_correct(self, company_service: CompanyService) -> None:
         assert company_service.find_by_id(2)

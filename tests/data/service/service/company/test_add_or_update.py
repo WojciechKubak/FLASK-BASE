@@ -10,7 +10,7 @@ def company_obj(request: Any, company_record_data: dict[str, Any]) -> Company:
     return Company.from_dict(company_record_data)
 
 
-class TestCompanyServiceAddOrUpdate:
+class TestAddOrUpdate:
 
     @pytest.mark.parametrize('company_obj', ['10'], indirect=True)
     def test_when_adding_new_record(
