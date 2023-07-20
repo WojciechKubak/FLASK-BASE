@@ -10,5 +10,5 @@ def employee_repository(employee_test_path: str, employee_validator_constraints:
 
 
 @pytest.fixture
-def employee_service(employee_repository: EmployeeRepository) -> EmployeeRepository:
+def employee_service(employee_repository: EmployeeRepository) -> EmployeeService:
     return EmployeeService(employee_repository)
