@@ -8,17 +8,17 @@ import pytest
 
 @pytest.fixture
 def company_test_path() -> str:
-    return 'tests/example_data/company_data_test.json'
+    return 'tests/example_data/companies'
 
 
 @pytest.fixture
 def employee_test_path() -> str:
-    return 'tests/example_data/employee_data_test.json'
+    return 'tests/example_data/employees'
 
 
 @pytest.fixture
-def empty_data_test_path() -> str:
-    return 'tests/example_data/empty_data_test.json'
+def empty_directory_path() -> str:
+    return 'tests/example_data/empty_directory'
 
 
 @pytest.fixture

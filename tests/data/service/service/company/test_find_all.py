@@ -3,6 +3,6 @@ from app.service.service.company import CompanyService
 
 def test_find_all(company_service: CompanyService) -> None:
     result = company_service.find_all()
-    assert 2 == len(result)
-    assert result[0].id_ == 2
-    assert result[1].id_ == 1
+    assert 4 == len(result)
+    assert 2 == result[0].id_
+    assert 1 == result[1].id_

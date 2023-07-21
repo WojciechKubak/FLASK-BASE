@@ -16,5 +16,5 @@ def test_when_employee_data_processor_works_correctly(
     data_factory.create_validator.return_value = EmployeeJsonValidator(**employee_validator_constraints)
     data_factory.create_converter.return_value = EmployeeConverter()
     result = DataProcessor(data_factory).process()
-    assert 2 == len(result)
+    assert 4 == len(result)
     assert all(isinstance(obj, Employee) for obj in result)

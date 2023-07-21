@@ -13,8 +13,8 @@ class TestFilterBy:
     @pytest.mark.parametrize('test_input,expected', [
         (('first_name', lambda x: x == 'Jane'), 1),
         (('age', lambda x: 21 <= x <= 30), 0),
-        (('position', lambda x: 'manager' in x.lower()), 1),
-        (('company', lambda x: x < 3), 2)
+        (('position', lambda x: 'manager' in x.lower()), 3),
+        (('company', lambda x: x < 3), 4)
         ]
     )
     def test_when_attribute_is_correct(

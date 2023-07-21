@@ -19,7 +19,7 @@ class TestAddOrUpdate:
             company_obj: Company
     ) -> None:
         company_service.add_or_update(company_obj)
-        assert 3 == len(company_service.find_all())
+        assert 5 == len(company_service.find_all())
         assert company_obj == company_service.find_by_id(10)
 
     @pytest.mark.parametrize('company_obj', ['2'], indirect=True)
@@ -29,5 +29,5 @@ class TestAddOrUpdate:
             company_obj: Company
     ) -> None:
         company_service.add_or_update(company_obj)
-        assert 2 == len(company_service.find_all())
+        assert 4 == len(company_service.find_all())
         assert company_obj == company_service.find_by_id(2)

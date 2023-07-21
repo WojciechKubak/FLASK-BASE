@@ -1,7 +1,9 @@
 from dataclasses import dataclass
 from abc import ABC, abstractmethod
+from itertools import chain
 from typing import Any
 import json
+import os
 
 
 @dataclass
@@ -17,10 +19,16 @@ class Loader(ABC):
 class JsonLoader(Loader):
 
     def load(self) -> list[dict[str, Any]]:
-        if not self.path.endswith('.json'):
-            raise AttributeError('Incorrect file extension.')
+        if not os.path.isdir(self.path):
+            raise NotADirectoryError(f'Path {self.path} is not a directory.')
+        loaded = [self.load_json_file(f'{self.path}/{file}') for file in os.listdir(self.path)
+                  if file.endswith('.json')]
+        return list(chain(*loaded))
+
+    @staticmethod
+    def load_json_file(filepath: str) -> list[dict[str, Any]]:
         try:
-            with open(self.path, 'r', encoding='utf-8') as json_data:
+            with open(filepath, 'r', encoding='utf-8') as json_data:
                 return json.load(json_data, parse_int=str, parse_float=str)
         except Exception as e:
-            raise FileNotFoundError(f'File not found: {e}.')
+            raise FileNotFoundError(f'Error occurred: {e}.')

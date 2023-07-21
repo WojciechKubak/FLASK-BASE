@@ -1,38 +1,8 @@
-from app.data.layers.validator import Validator, CompanyJsonValidator
-from typing import Any
+from app.data.layers.validator import Validator
 import pytest
 
 
-class TestCompanyJsonValidatorValidate:
-
-    def test_when_company_data_is_not_correct(
-            self,
-            company_record_data: dict[str, Any],
-            company_validator_obj: CompanyJsonValidator
-    ) -> None:
-        company_record_data['city'] = 'Incorrect1City'
-        with pytest.raises(ValueError) as err:
-            company_validator_obj.validate(company_record_data)
-        assert 'city: does not match condition' == str(err.value)
-
-    def test_when_company_data_is_correct(
-            self,
-            company_record_data: dict[str, Any],
-            company_validator_obj: CompanyJsonValidator
-    ) -> None:
-        assert company_validator_obj.validate(company_record_data) == company_record_data
-
-
-class TestValidatorMatchRegex:
-
-    def test_when_regex_is_matched(self) -> None:
-        assert Validator.match_regex('1234', r'^\d+$')
-
-    def test_when_regex_is_not_matched(self) -> None:
-        assert not Validator.match_regex('abcdef1', r'^[a-z]+$')
-
-
-class TestValidatorMatchIfStringContainsNonNegativeNumber:
+class TestMatchIfStringContainsNonNegativeNumber:
 
     @pytest.mark.parametrize('text,expected_type', [('123.2', int), ('-12', int), ('abcdef', int)])
     def test_when_text_does_not_match_expected_type_int(self, text: str, expected_type: type) -> None:

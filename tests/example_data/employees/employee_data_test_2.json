@@ -1,0 +1,34 @@
+[
+  {
+      "id": 7,
+      "first_name": "Sophia",
+      "last_name": "Brown",
+      "position": "Marketing Manager",
+      "age": 33,
+      "employment_tenure": 6,
+      "department": "Sales and Marketing",
+      "salary": 8000,
+      "performance_rating": {
+         "efficiency": 5,
+         "creativity": 4,
+         "communication": 5
+      },
+      "company": 1
+   },
+   {
+      "id": 8,
+      "first_name": "William",
+      "last_name": "Davis",
+      "position": "Sales Manager",
+      "age": 36,
+      "employment_tenure": 7,
+      "department": "Sales and Marketing",
+      "salary": 9000,
+      "performance_rating": {
+         "efficiency": 4,
+         "creativity": 3,
+         "communication": 4
+      },
+      "company": 1
+   }
+]
