@@ -6,17 +6,54 @@ import re
 
 @dataclass
 class Validator(ABC):
+    """
+    Abstract base class for data validators.
+
+    Attributes:
+        _errors (dict[str, str]): Dictionary to store validation errors.
+    """
+
     _errors: dict[str, str] = field(default_factory=dict, init=False)
 
     @abstractmethod
     def validate(self, data: dict[str, Any]) -> dict[str, Any]:
+        """
+        Abstract method to be implemented by subclasses.
+        Performs data validation and returns the validated data.
+
+        Args:
+            data (dict[str, Any]): The data to be validated.
+
+        Returns:
+            dict[str, Any]: The validated data.
+
+        Raises:
+            ValueError: If validation fails and there are errors in the data.
+        """
         pass
 
     def errors_to_str(self) -> str:
+        """
+        Convert validation errors to a human-readable string.
+
+        Returns:
+            str: A string containing the list of validation errors.
+        """
         return ', '.join([f'{key}: {message}' for key, message in self._errors.items()])
 
     @staticmethod
     def validate_value(data: dict[str, Any], key: str, constraint: Callable) -> str:
+        """
+        Validate a specific value in the data dictionary based on the given constraint function.
+
+        Args:
+            data (dict[str, Any]): The data dictionary to validate.
+            key (str): The key representing the value to validate.
+            constraint (Callable): The constraint function to apply on the value.
+
+        Returns:
+            str: An empty string if the value satisfies the constraint, otherwise an error message.
+        """
         if not (to_validate := data.get(key)):
             return 'key not found'
         if constraint(to_validate):
@@ -25,10 +62,33 @@ class Validator(ABC):
 
     @staticmethod
     def match_regex(text: str, regex: str) -> bool:
+        """
+        Check if a text matches the given regular expression.
+
+        Args:
+            text (str): The text to match against the regular expression.
+            regex (str): The regular expression pattern.
+
+        Returns:
+            bool: True if the text matches the regular expression, False otherwise.
+        """
         return re.match(regex, text) is not None
 
     @staticmethod
     def match_if_string_contains_non_negative_number(text: str, expected_type: type) -> bool:
+        """
+        Check if a text contains a non-negative number of the specified type.
+
+        Args:
+            text (str): The text to check for a non-negative number.
+            expected_type (type): The expected type of the number (int or float).
+
+        Returns:
+            bool: True if the text contains a non-negative number of the specified type, False otherwise.
+
+        Raises:
+            TypeError: If an incorrect type is provided.
+        """
         if expected_type not in [int, float]:
             raise TypeError('Incorrect type provided.')
         data_type_regex = {
@@ -40,6 +100,17 @@ class Validator(ABC):
 
 @dataclass
 class CompanyJsonValidator(Validator):
+    """
+    Data validator for company JSON data.
+
+    Attributes:
+        company_name_regex (str): Regular expression pattern for validating company names.
+        street_regex (str): Regular expression pattern for validating street names.
+        city_regex (str): Regular expression pattern for validating city names.
+        state_regex (str): Regular expression pattern for validating state names.
+        country_regex (str): Regular expression pattern for validating country names.
+    """
+
     company_name_regex: str
     street_regex: str
     city_regex: str
@@ -47,6 +118,18 @@ class CompanyJsonValidator(Validator):
     country_regex: str
 
     def validate(self, data: dict[str, Any]) -> dict[str, Any]:
+        """
+        Validate the company JSON data.
+
+        Args:
+            data (dict[str, Any]): The company data to be validated.
+
+        Returns:
+            dict[str, Any]: The validated company data.
+
+        Raises:
+            ValueError: If validation fails and there are errors in the data.
+        """
         constraints = {
             'id': lambda x: self.match_if_string_contains_non_negative_number(x, int),
             'company_name': lambda x: self.match_regex(x, self.company_name_regex),
@@ -66,12 +149,34 @@ class CompanyJsonValidator(Validator):
 
 @dataclass
 class EmployeeJsonValidator(Validator):
+    """
+    Data validator for employee JSON data.
+
+    Attributes:
+        first_name_regex (str): Regular expression pattern for validating employee first names.
+        last_name_regex (str): Regular expression pattern for validating employee last names.
+        position_regex (str): Regular expression pattern for validating employee positions.
+        department_regex (str): Regular expression pattern for validating employee departments.
+    """
+
     first_name_regex: str
     last_name_regex: str
     position_regex: str
     department_regex: str
 
     def validate(self, data: dict[str, Any]) -> dict[str, Any]:
+        """
+        Validate the employee JSON data.
+
+        Args:
+            data (dict[str, Any]): The employee data to be validated.
+
+        Returns:
+            dict[str, Any]: The validated employee data.
+
+        Raises:
+            ValueError: If validation fails and there are errors in the data.
+        """
         constraints = {
             'id': lambda x: self.match_if_string_contains_non_negative_number(x, int),
             'first_name': lambda x: self.match_regex(x, self.first_name_regex),
