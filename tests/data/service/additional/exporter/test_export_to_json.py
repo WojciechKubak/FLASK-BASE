@@ -1,14 +1,7 @@
 from app.service.additional.exporter import DataExporter, FileExportFormat
 from app.data.model.employee import Employee
-from pathlib import Path
 import pytest
 import json
-import os
-
-
-@pytest.fixture
-def export_json_path(tmp_path: Path) -> str:
-    return os.path.join(tmp_path, 'result.json')
 
 
 class TestExportToJson:

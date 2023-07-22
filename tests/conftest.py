@@ -2,8 +2,13 @@ from app.data.model.employee import Employee
 from app.data.factory.factory import \
     FromJsonWithValidationToEmployeeDataFactory, FromJsonWithValidationToCompanyDataFactory
 from app.data.layers.validator import CompanyJsonValidator, EmployeeJsonValidator
+from app.service.repository.repository import CompanyRepository, EmployeeRepository, ProxyCompanyRepository
+from app.service.service.company import CompanyService
+from app.service.service.employee import EmployeeService
 from typing import Any
+from pathlib import Path
 import pytest
+import os
 
 
 @pytest.fixture
@@ -60,6 +65,12 @@ def employee_obj(employee_record_data: dict[str, Any]) -> Employee:
 
 
 @pytest.fixture
+def employee_obj_with_expected_id(request: Any, employee_record_data: dict[str, Any]) -> Employee:
+    employee_record_data['id'] = request.param
+    return Employee.from_dict(employee_record_data)
+
+
+@pytest.fixture
 def company_validator_constraints() -> dict[str, Any]:
     return {
         'company_name_regex': r'^[a-zA-Z0-9 .]+$',
@@ -104,3 +115,33 @@ def employee_data_factory(
         employee_validator_constraints: dict[str, Any]
 ) -> FromJsonWithValidationToEmployeeDataFactory:
     return FromJsonWithValidationToEmployeeDataFactory(employee_test_path, employee_validator_constraints)
+
+
+@pytest.fixture
+def export_json_path(tmp_path: Path) -> str:
+    return os.path.join(tmp_path, 'result.json')
+
+
+@pytest.fixture
+def export_txt_path(tmp_path: Path) -> str:
+    return os.path.join(tmp_path, 'result.txt')
+
+
+@pytest.fixture
+def employee_repository(employee_test_path: str, employee_validator_constraints: dict[str, Any]) -> EmployeeRepository:
+    return EmployeeRepository(employee_test_path, employee_validator_constraints)
+
+
+@pytest.fixture
+def employee_service(employee_repository: EmployeeRepository) -> EmployeeService:
+    return EmployeeService(employee_repository)
+
+
+@pytest.fixture
+def company_repository(company_test_path: str, company_validator_constraints: dict[str, Any]) -> CompanyRepository:
+    return CompanyRepository(company_test_path, company_validator_constraints)
+
+
+@pytest.fixture
+def company_service(company_repository: CompanyRepository) -> CompanyService:
+    return CompanyService(company_repository)

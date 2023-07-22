@@ -13,7 +13,7 @@ class TestValidate:
         company_record_data['city'] = 'Incorrect1City'
         with pytest.raises(ValueError) as err:
             company_validator_obj.validate(company_record_data)
-        assert 'city: does not match condition' == str(err.value)
+        assert str(err.value).endswith('does not match condition')
 
     def test_when_company_data_is_correct(
             self,

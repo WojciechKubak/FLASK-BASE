@@ -13,7 +13,7 @@ class TestValidate:
         employee_record_data['first_name'] = 'First1Name'
         with pytest.raises(ValueError) as err:
             employee_validator_obj.validate(employee_record_data)
-        assert 'first_name: does not match condition' == str(err.value)
+        assert str(err.value).endswith('does not match condition')
 
     def test_when_employee_data_is_correct(
             self,

@@ -1,13 +1,6 @@
 from app.service.additional.exporter import DataExporter, FileExportFormat
 from app.data.model.employee import Employee
-from pathlib import Path
 import pytest
-import os
-
-
-@pytest.fixture
-def export_txt_path(tmp_path: Path) -> str:
-    return os.path.join(tmp_path, 'result.txt')
 
 
 class TestExportToTxt:
