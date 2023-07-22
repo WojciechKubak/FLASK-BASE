@@ -240,7 +240,7 @@ class ProxyCompanyRepository(Repository):
         Returns:
             list[Any]: A list of all Company records in the repository.
         """
-        return [ProxyCompanyRepository.get_employee_data(
+        return [ProxyCompanyRepository._get_employee_data(
             company, self.employee_repository, only_id=self.fetch_type == FetchType.LAZY)
             for company in self.company_repository.find_all()]
 
@@ -278,7 +278,7 @@ class ProxyCompanyRepository(Repository):
         self.company_repository.delete(id_)
 
     @staticmethod
-    def get_employee_data(company: Company, employees_repository: EmployeeRepository, only_id: bool = True) -> Company:
+    def _get_employee_data(company: Company, employees_repository: EmployeeRepository, only_id: bool = True) -> Company:
         """
         Get Company data with optional lazy-loaded Employee data.
 
