@@ -257,7 +257,7 @@ class ProxyCompanyRepository(Repository):
         result = self.company_repository.find_by_id(id_)
         if self.fetch_type == FetchType.LAZY:
             return result
-        return self.get_employees(result, self.employee_repository) if result else None
+        return self._get_employee_data(result, self.employee_repository) if result else None
 
     def add_or_update(self, record: Any) -> None:
         """
