@@ -4,14 +4,6 @@ from app.service.service.company import CompanyService
 from app.service.additional.exporter import FileExportFormat
 
 
-"""
-    1. testy dla CRUD repozytoriów,
-    2. testy dla Exportera,
-    3. testy dla metody serwisowej do eksportowania,
-    4. refaktoryzacja testów z Chatem.
-"""
-
-
 def call_employee_repository() -> EmployeeRepository:
     employee_data_dir = '../resources/employees/'
     employee_constraints = {
@@ -50,3 +42,4 @@ if __name__ == '__main__':
     company_service_eager.export_data('../results/company_data.txt', FileExportFormat.TXT_FILE)
     employee_service.export_data('../results/employee_data.json', FileExportFormat.JSON_FILE)
     employee_service.export_data('../results/employee_data.txt', FileExportFormat.TXT_FILE)
+
