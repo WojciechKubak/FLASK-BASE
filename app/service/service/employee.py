@@ -83,18 +83,23 @@ class EmployeeService:
         """
         return {employee.id_: employee.get_performance_average() for employee in self.employee_repository.find_all()}
 
-    def get_best_and_worst_performing_employees(self) -> tuple[Employee, Employee]:
+    def get_best_and_worst_performing_employees(self) -> dict[str, list[Employee]]:
         """
         Get the best and worst performing Employees based on their performance average.
 
         Returns:
-            tuple[Employee, Employee]: A tuple containing the best and worst performing Employees.
+            dict[str, list[Employee]]: A dictionary containing lists of best and worst performing Employees.
+                                       The keys are "max" and "min", and the values are lists of Employees.
+                                       Employees with the same highest and lowest performance scores will be
+                                       grouped together in the corresponding lists.
         """
-        employee_scores = {employee.id_: employee.get_performance_average()
-                           for employee in self.employee_repository.find_all()}
-        max_ = max(employee_scores, key=employee_scores.get)
-        min_ = min(employee_scores, key=employee_scores.get)
-        return self.find_by_id(max_), self.find_by_id(min_)
+        employees = self.employee_repository.find_all()
+        employee_scores = {e.id_: e.get_performance_average() for e in employees}
+        max_score, min_score = max(employee_scores.values()), min(employee_scores.values())
+        return {
+            'max': [employee for employee in employees if employee_scores[employee.id_] == max_score],
+            'min': [employee for employee in employees if employee_scores[employee.id_] == min_score],
+        }
 
     def get_department_performance_overview(self) -> dict[str, float]:
         """
