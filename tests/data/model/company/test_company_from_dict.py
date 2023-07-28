@@ -13,7 +13,7 @@ class TestCompanyFromDict:
     def test_when_data_has_employee_ids(self, company_record_data: dict[str, Any]) -> None:
         company_record_data['employees'] = [1, 2, 3]
         result = Company.from_dict(company_record_data)
-        assert 3 == len(result.employees)
+        assert len(company_record_data['employees']) == len(result.employees)
 
     def test_when_data_has_employee_objects(
             self,
@@ -21,4 +21,4 @@ class TestCompanyFromDict:
             employee_obj_mock: Employee) -> None:
         company_record_data['employees'] = [employee_obj_mock, employee_obj_mock]
         result = Company.from_dict(company_record_data)
-        assert 2 == len(result.employees)
+        assert len(company_record_data['employees']) == len(result.employees)
