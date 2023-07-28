@@ -123,17 +123,23 @@ class EmployeeService:
         salaries = [employee.salary for employee in self.employee_repository.find_all()]
         return sum(salaries) / len(salaries)
 
-    def get_employees_with_highest_and_lowest_salary(self) -> tuple[Employee, Employee]:
+    def get_employees_with_highest_and_lowest_salary(self) -> dict[str, list[Employee]]:
         """
         Get the Employees with the highest and lowest salaries.
 
         Returns:
-            tuple[Employee, Employee]: A tuple containing the Employee with the highest and lowest salaries.
+            dict[str, list[Employee]]: A dictionary containing lists of Employees with the highest and lowest salaries.
+                                      The keys are "max" and "min", and the values are lists of Employees.
+                                      Employees with the same highest and lowest salaries will be grouped together
+                                      in the corresponding lists.
         """
         employees = self.employee_repository.find_all()
-        max_ = max(employees, key=lambda x: getattr(x, 'salary'))
-        min_ = min(employees, key=lambda x: getattr(x, 'salary'))
-        return max_, min_
+        max_salary = max(employees, key=lambda x: getattr(x, 'salary')).salary
+        min_salary = min(employees, key=lambda x: getattr(x, 'salary')).salary
+        return {
+            'max': [employee for employee in employees if getattr(employee, 'salary') == max_salary],
+            'min': [employee for employee in employees if getattr(employee, 'salary') == min_salary]
+        }
 
     def get_department_employee_salary_overview(self) -> dict[str, Decimal]:
         """
