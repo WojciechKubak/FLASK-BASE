@@ -2,7 +2,7 @@ from app.service.repository.repository import Repository
 from app.data.model.employee import Employee
 from app.service.additional.exporter import DataExporter, FileExportFormat
 from dataclasses import dataclass
-from typing import Optional, Any, Callable
+from typing import Any, Callable
 from decimal import Decimal
 from collections import defaultdict
 
@@ -27,7 +27,7 @@ class EmployeeService:
         """
         return self.employee_repository.find_all()
 
-    def find_by_id(self, id_: int) -> Optional[Any]:
+    def find_by_id(self, id_: int) -> Any:
         """
         Retrieve an Employee record from the repository based on its ID.
 
@@ -35,7 +35,7 @@ class EmployeeService:
             id_ (int): The ID of the Employee record to retrieve.
 
         Returns:
-            Optional[Any]: The Employee record if found, otherwise None.
+            Any: The Employee record if found, otherwise None.
         """
         if id_ < 0:
             raise ValueError('Id must be non-negative number.')

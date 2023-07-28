@@ -1,7 +1,7 @@
 from app.service.repository.repository import Repository
 from app.service.additional.exporter import DataExporter, FileExportFormat
 from dataclasses import dataclass
-from typing import Any, Optional
+from typing import Any
 
 
 @dataclass
@@ -24,7 +24,7 @@ class CompanyService:
         """
         return self.company_repository.find_all()
 
-    def find_by_id(self, id_: int) -> Optional[Any]:
+    def find_by_id(self, id_: int) -> Any:
         """
         Retrieve a Company record from the repository based on its ID.
 
@@ -32,7 +32,7 @@ class CompanyService:
             id_ (int): The ID of the Company record to retrieve.
 
         Returns:
-            Optional[Any]: The Company record if found, otherwise None.
+            Any: The Company record if found, otherwise None.
         """
         if id_ < 0:
             raise ValueError('Id must be non-negative number.')

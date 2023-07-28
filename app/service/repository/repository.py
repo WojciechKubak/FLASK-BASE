@@ -1,9 +1,9 @@
 from app.data.model.employee import Employee
 from app.data.model.company import Company
 from app.data.factory.processor import DataProcessor, DataFactoryType
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from abc import ABC, abstractmethod
-from typing import Optional, Any
+from typing import Any
 from enum import Enum, auto
 
 
@@ -36,7 +36,7 @@ class Repository(ABC):
         pass
 
     @abstractmethod
-    def find_by_id(self, id_: int) -> Optional[Any]:
+    def find_by_id(self, id_: int) -> Any:
         """
         Retrieve a record from the repository based on its ID.
 
@@ -44,7 +44,7 @@ class Repository(ABC):
             id_ (int): The ID of the record to retrieve.
 
         Returns:
-            Optional[Any]: The record if found, otherwise None.
+            Any: The record if found, otherwise None.
         """
         pass
 
@@ -77,12 +77,10 @@ class CompanyRepository(Repository):
     Attributes:
         path (str): The path to the directory containing JSON files.
         constraints (dict[str, Any]): Dictionary of validation constraints for the data.
-        companies (list[Company]): List of Company objects stored in the repository.
     """
 
     path: str
     constraints: dict[str, Any]
-    companies: list[Company] = field(default_factory=list, init=False)
 
     def __post_init__(self):
         """
@@ -104,7 +102,7 @@ class CompanyRepository(Repository):
         """
         return self.companies
 
-    def find_by_id(self, id_: int) -> Optional[Company]:
+    def find_by_id(self, id_: int) -> Any:
         """
         Retrieve a Company record from the repository based on its ID.
 
@@ -112,7 +110,7 @@ class CompanyRepository(Repository):
             id_ (int): The ID of the Company record to retrieve.
 
         Returns:
-            Optional[Company]: The Company record if found, otherwise None.
+            Any: The Company record if found, otherwise None.
         """
         if filtered := [company for company in self.companies if company.id_ == id_]:
             return filtered[0]
@@ -147,12 +145,10 @@ class EmployeeRepository(Repository):
     Attributes:
         path (str): The path to the directory containing JSON files.
         constraints (dict[str, Any]): Dictionary of validation constraints for the data.
-        employees (list[Employee]): List of Employee objects stored in the repository.
     """
 
     path: str
     constraints: dict[str, Any]
-    employees: list[Employee] = field(default_factory=list, init=False)
 
     def __post_init__(self):
         """
@@ -174,7 +170,7 @@ class EmployeeRepository(Repository):
         """
         return self.employees
 
-    def find_by_id(self, id_: int) -> Optional[Employee]:
+    def find_by_id(self, id_: int) -> Any:
         """
         Retrieve an Employee record from the repository based on its ID.
 
@@ -182,7 +178,7 @@ class EmployeeRepository(Repository):
             id_ (int): The ID of the Employee record to retrieve.
 
         Returns:
-            Optional[Employee]: The Employee record if found, otherwise None.
+            Any: The Employee record if found, otherwise None.
         """
         if filtered := [employee for employee in self.employees if employee.id_ == id_]:
             return filtered[0]
