@@ -13,9 +13,9 @@ class TestCompanyToDict:
     def test_when_employee_objects_in_company(self, company_with_employee_objects: Company) -> None:
         result = company_with_employee_objects.to_dict()
         assert 2 == len(result['employees'])
-        assert isinstance(result['employees'][0], dict)
+        assert all(isinstance(obj, dict) for obj in result['employees'])
 
     def test_when_employee_ids_in_company(self, company_with_employee_ids: Company) -> None:
         result = company_with_employee_ids.to_dict()
         assert 3 == len(result['employees'])
-        assert isinstance(result['employees'][0], int)
+        assert all(isinstance(obj, int) for obj in result['employees'])
