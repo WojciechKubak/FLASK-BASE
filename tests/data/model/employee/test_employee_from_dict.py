@@ -5,6 +5,7 @@ from typing import Any
 
 def test_employee_from_dict_conversion(employee_record_data: dict[str, Any]) -> None:
     result = Employee.from_dict(employee_record_data)
+    assert len(employee_record_data) == len(result.__dict__)
     assert isinstance(result.id_, int)
     assert isinstance(result.age, int)
     assert isinstance(result.company, int)
