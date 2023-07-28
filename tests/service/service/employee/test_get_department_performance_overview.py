@@ -3,7 +3,6 @@ from app.service.service.employee import EmployeeService
 
 def test_get_department_performance_overview(employee_service: EmployeeService) -> None:
     result = employee_service.get_department_performance_overview()
-
     unique_departments = set(e.department for e in employee_service.find_all())
     assert len(unique_departments) == len(result)
 
