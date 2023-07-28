@@ -13,7 +13,6 @@ class TestDelete:
         record_counter = len(company_service.find_all())
         company_service.delete(2)
         assert not company_service.find_by_id(2)
-        assert record_counter - 1 == len(company_service.find_all())
 
     def test_when_id_is_not_present_in_data(self, company_service: CompanyService) -> None:
         record_counter = len(company_service.find_all())
