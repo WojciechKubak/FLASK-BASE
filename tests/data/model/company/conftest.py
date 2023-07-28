@@ -8,7 +8,6 @@ import pytest
 def employee_obj_mock() -> MagicMock:
     employee_mock = MagicMock(spec=Employee)
     employee_mock.to_dict.return_value = {}
-    employee_mock.__str__.return_value = 'employee data'
     return employee_mock
 
 
