@@ -19,8 +19,32 @@ depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:
-    pass
+    op.create_table(
+        'companies',
+        sa.Column('id', sa.Integer, primary_key=True, autoincrement=True),
+        sa.Column('company_name', sa.String(255)),
+        sa.Column('street', sa.String(255)),
+        sa.Column('city', sa.String(255)),
+        sa.Column('postal_code', sa.String(255)),
+        sa.Column('state', sa.String(255)),
+        sa.Column('country', sa.String(255)),
+    )
+    op.create_table(
+        'employees',
+        sa.Column('id', sa.Integer, primary_key=True, autoincrement=True),
+        sa.Column('first_name', sa.String(255)),
+        sa.Column('last_name', sa.String(255)),
+        sa.Column('position', sa.String(255)),
+        sa.Column('age', sa.Integer),
+        sa.Column('employment_tenure', sa.String(255)),
+        sa.Column('department', sa.String(255)),
+        sa.Column('salary', sa.Numeric(precision=6, scale=2)),
+        sa.Column('performance_rating', sa.JSON),
+        sa.Column('company_id', sa.Integer),
+        sa.ForeignKeyConstraint(['company_id'], ['companies.id']),
+    )
 
 
 def downgrade() -> None:
-    pass
+    op.drop_table('employees')
+    op.drop_table('companies')
