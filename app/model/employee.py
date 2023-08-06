@@ -1,129 +1,67 @@
-from dataclasses import dataclass
+from app.db.configuration import sa
 from decimal import Decimal
-from typing import Any, Callable, Self
+from typing import Any, Self
 
 
-@dataclass(frozen=True, order=True)
-class Employee:
-    """
-    Represents an employee entity.
+class EmployeeModel(sa.Model):
 
-    Attributes:
-        id_ (int): The unique identifier of the employee.
-        first_name (str): The first name of the employee.
-        last_name (str): The last name of the employee.
-        position (str): The position or job title of the employee.
-        age (int): The age of the employee.
-        employment_tenure (int): The tenure (in months) of the employee's employment.
-        department (str): The department where the employee works.
-        salary (Decimal): The salary of the employee.
-        performance_rating (dict[str, int]): A dictionary containing performance ratings for the employee.
-        company (int): The unique identifier of the company the employee belongs to.
-    """
+    __tablename__ = 'employees'
 
-    id_: int
-    first_name: str
-    last_name: str
-    position: str
-    age: int
-    employment_tenure: int
-    department: str
-    salary: Decimal
-    performance_rating: dict[str, int]
-    company: int
+    id = sa.Column(sa.Integer, primary_key=True)
+    full_name = sa.Column(sa.String(255))
+    position = sa.Column(sa.String(255))
+    age = sa.Column(sa.Integer)
+    employment_tenure = sa.Column(sa.Integer)
+    department = sa.Column(sa.String(255))
+    salary = sa.Column(sa.Numeric(precision=6, scale=2))
+    performance_rating = sa.Column(sa.JSON)
+    company_id = sa.Column(sa.Integer, sa.ForeignKey('companies.id'))
 
-    def get_performance_average(self) -> Any:
-        """
-        Calculate the average performance rating for the employee.
+    company = sa.relationship('CompanyModel', backref=sa.backref('employees'), lazy=True)
 
-        Returns:
-            Any: The average performance rating or None if no ratings are available.
-        """
-        ratings = list(self.performance_rating.values())
-        if len(ratings) == 1:
-            return ratings[0]
-        return sum(ratings) / len(ratings) if ratings else None
-
-    def filter_by_criterion(self, criterion: tuple[str, Callable[[Any], bool]]) -> bool:
-        """
-        Check if the employee meets a specific criterion based on the provided attribute name and expression.
-
-        Args:
-            criterion (tuple[str, Callable[[Any], bool]]): A tuple containing the attribute name and an expression
-                (function) that evaluates the attribute value.
-
-        Returns:
-            bool: True if the employee meets the criterion, False otherwise.
-
-        Raises:
-            AttributeError: If the attribute name is not found in the Employee object.
-        """
-        attr_name, expression = criterion
-        if attr_name not in self.__dict__.keys():
-            raise AttributeError('Key not found.')
-        return expression(getattr(self, attr_name))
+    def __init__(
+            self,
+            full_name: str,
+            position: str,
+            age: int,
+            employment_tenure: int,
+            department: str,
+            salary: Decimal,
+            performance_rating: dict[str, Any],
+            company_id: int
+    ):
+        self.full_name = full_name
+        self.position = position
+        self.age = age
+        self.employment_tenure = employment_tenure
+        self.department = department
+        self.salary = salary
+        self.performance_rating = performance_rating
+        self.company_id = company_id
 
     def to_dict(self) -> dict[str, Any]:
-        """
-        Convert the Employee object to a dictionary representation.
-
-        Returns:
-            dict[str, Any]: A dictionary containing the attributes of the Employee object.
-        """
         return {
-            'id': self.id_,
-            'first_name': self.first_name,
-            'last_name': self.last_name,
+            'full_name': self.full_name,
             'position': self.position,
             'age': self.age,
             'employment_tenure': self.employment_tenure,
             'department': self.department,
             'salary': self.salary,
             'performance_rating': self.performance_rating,
-            'company': self.company
+            'company_id': self.company_id
         }
 
-    def __str__(self) -> str:
-        """
-        Return a string representation of the Employee object.
+    def add_or_update(self) -> None:
+        sa.session.add(self)
+        sa.session.commit()
 
-        Returns:
-            str: A string containing formatted employee information.
-        """
-        return f"""ID: {self.id_}
-First Name: {self.first_name}
-Last Name: {self.last_name}
-Position: {self.position}
-Age: {self.age}
-Employment Tenure: {self.employment_tenure}
-Department: {self.department}
-Salary: {self.salary}
-Performance Rating: {self.performance_rating}
-Company ID: {self.company}"""
-
-    def __repr__(self) -> str:
-        """
-        Return a string representation of the Employee object (same as __str__).
-
-        Returns:
-            str: A string containing formatted employee information.
-        """
-        return self.__str__()
+    def delete(self) -> None:
+        sa.session.delete(self)
+        sa.session.commit()
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> Self:
-        """
-        Create an Employee object from a dictionary representation.
-
-        Args:
-            data (dict[str, Any]): A dictionary containing the attributes of the Employee object.
-
-        Returns:
-            Employee: A new Employee object created from the dictionary data.
-        """
-        data['id_'] = int(data.pop('id'))
-        data['age'] = int(data['age'])
-        data['salary'] = Decimal(data['salary'])
-        data['company'] = int(data['company'])
-        data['performance_rating'] = {k: int(v) for k, v in data['performance_rating'].items()}
-        return cls(**data)
+    def filter_by(cls: Self, criterion: tuple[str, Any]) -> Self:
+        field_name, _ = criterion
+        if field_name not in cls.__dict__.keys():
+            raise AttributeError('Field name not found.')
+        return EmployeeModel.query.filter_by(**dict([criterion])).first()
