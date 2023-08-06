@@ -51,8 +51,14 @@ class EmployeeModel(sa.Model):
             'company_id': self.company_id
         }
 
-    def add_or_update(self) -> None:
+    def add(self) -> None:
         sa.session.add(self)
+        sa.session.commit()
+
+    def update(self, data: dict[str, Any]) -> None:
+        for field_name, value in data.items():
+            if hasattr(self, field_name):
+                setattr(self, field_name, value)
         sa.session.commit()
 
     def delete(self) -> None:
@@ -60,8 +66,5 @@ class EmployeeModel(sa.Model):
         sa.session.commit()
 
     @classmethod
-    def filter_by(cls: Self, criterion: tuple[str, Any]) -> Self:
-        field_name, _ = criterion
-        if field_name not in cls.__dict__.keys():
-            raise AttributeError('Field name not found.')
-        return EmployeeModel.query.filter_by(**dict([criterion])).first()
+    def find_by_name(cls: Self, name: str) -> Self:
+        return EmployeeModel.query.filter_by(full_name=name).first()

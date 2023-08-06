@@ -5,46 +5,64 @@ from flask import make_response, Response
 
 class CompanyResource(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument('street', type=str, required=True, help='Street field required')
-    parser.add_argument('city', type=str, required=True, help='City field required')
-    parser.add_argument('postal_code', type=str, required=True, help='Postal code field required')
-    parser.add_argument('state', type=str, required=True, help='State field required')
-    parser.add_argument('country', type=str, required=True, help='Country field required')
+    parser.add_argument('street', type=str, required=True, help='street field required')
+    parser.add_argument('city', type=str, required=True, help='city field required')
+    parser.add_argument('postal_code', type=str, required=True, help='postal_code code field required')
+    parser.add_argument('state', type=str, required=True, help='state field required')
+    parser.add_argument('country', type=str, required=True, help='country field required')
 
     @staticmethod
     def get(company_name: str) -> Response:
-        result = CompanyModel.filter_by(('company_name', company_name))
+        result = CompanyModel.find_by_name(company_name)
         if result:
             return make_response(result.to_dict(), 200)
         return make_response({'message': f'Company: {company_name} not found'}, 400)
 
     @staticmethod
     def post(company_name: str) -> Response:
-        if CompanyModel.filter_by(('company_name', company_name)):
+        if CompanyModel.find_by_name(company_name):
             return make_response({'message': f'Company: {company_name} already exists'})
         data = CompanyResource.parser.parse_args()
         try:
             company = CompanyModel(company_name, **data)
-            company.add_or_update()
+            company.add()
             return make_response(company.to_dict(), 201)
         except Exception:
             return make_response({'message': 'Error occurred'}, 400)
 
     @staticmethod
     def put(company_name: str) -> Response:
-        if result := CompanyModel.filter_by(('company_name', company_name)):
+        if result := CompanyModel.find_by_name(company_name):
+            data = CompanyResource.parser.parse_args()
             try:
-                for field_name, value in CompanyResource.parser.parse_args().items():
-                    setattr(result, field_name, value)
-                result.add_or_update()
-                return make_response(result.to_dict(), 200)
+                result.update(data)
+                return make_response({'message': 'Record updated successfully'}, 200)
             except Exception:
                 return make_response({'message': 'Error occurred'}, 400)
         return make_response({'message': f'Company: {company_name} does not exist'}, 400)
 
     @staticmethod
     def delete(company_name: str) -> Response:
-        if result := CompanyModel.filter_by(('company_name', company_name)):
+        if result := CompanyModel.find_by_name(company_name):
             result.delete()
             return make_response({'message': f'Company: {company_name} deleted'}, 200)
         return make_response({'message': f'Company: {company_name} does not exist'}, 400)
+
+
+class CompanyListResource(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument('companies', type=list, required=True, help='No data provided', location='json')
+
+    @staticmethod
+    def get() -> Response:
+        return make_response({'companies': [company.to_dict() for company in CompanyModel.query.all()]}, 200)
+
+    @staticmethod
+    def post() -> Response:
+        parsed = CompanyListResource.parser.parse_args()
+        for data in parsed.get('companies'):
+            if result := CompanyModel.find_by_name(data.get('company_name')):
+                result.update(data)
+            else:
+                CompanyModel(**data).add()
+        return make_response({'message': 'Records added successfully'}, 201)
