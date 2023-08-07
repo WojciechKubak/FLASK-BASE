@@ -14,27 +14,24 @@ class EmployeeResource(Resource):
     parser.add_argument('performance_rating', type=dict, required=True, help='performance_rating field required')
     parser.add_argument('company_id', type=int, required=True, help='company_id field required')
 
-    @staticmethod
-    def get(full_name: str) -> Response:
+    def get(self, full_name: str) -> Response:
         result = EmployeeModel.find_by_name(full_name)
         if result:
             return make_response(result.to_dict(), 200)
         return make_response({'message': f'Employee: {full_name} not found'}, 400)
 
-    @staticmethod
-    def post(full_name: str) -> Response:
+    def post(self, full_name: str) -> Response:
         if EmployeeModel.find_by_name(full_name):
             return make_response({'message': f'Employee: {full_name} already exists'})
         data = EmployeeResource.parser.parse_args()
         try:
-            employee = EmployeeModel(full_name, **data)
+            employee = EmployeeModel(full_name=full_name, **data)
             employee.add()
             return make_response(employee.to_dict(), 201)
         except Exception:
             return make_response({'message': 'Error occurred'}, 400)
 
-    @staticmethod
-    def put(full_name: str) -> Response:
+    def put(self, full_name: str) -> Response:
         if result := EmployeeModel.find_by_name(full_name):
             data = EmployeeResource.parser.parse_args()
             try:
@@ -44,8 +41,7 @@ class EmployeeResource(Resource):
                 return make_response({'message': 'Error occurred'}, 400)
         return make_response({'message': f'Employee: {full_name} does not exist'}, 400)
 
-    @staticmethod
-    def delete(full_name: str) -> Response:
+    def delete(self, full_name: str) -> Response:
         if result := EmployeeModel.find_by_name(full_name):
             result.delete()
             return make_response({'message': f'Employee: {full_name} deleted'}, 200)
@@ -56,12 +52,10 @@ class EmployeeListResource(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('employees', type=list, required=True, help='No data provided', location='json')
 
-    @staticmethod
-    def get() -> Response:
+    def get(self) -> Response:
         return make_response({'employees': [employee.to_dict() for employee in EmployeeModel.query.all()]}, 200)
 
-    @staticmethod
-    def post() -> Response:
+    def post(self) -> Response:
         parsed = EmployeeListResource.parser.parse_args()
         for data in parsed.get('employees'):
             if result := EmployeeModel.find_by_name(data.get('full_name')):

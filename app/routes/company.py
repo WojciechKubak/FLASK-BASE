@@ -11,27 +11,24 @@ class CompanyResource(Resource):
     parser.add_argument('state', type=str, required=True, help='state field required')
     parser.add_argument('country', type=str, required=True, help='country field required')
 
-    @staticmethod
-    def get(company_name: str) -> Response:
+    def get(self, company_name: str) -> Response:
         result = CompanyModel.find_by_name(company_name)
         if result:
             return make_response(result.to_dict(), 200)
         return make_response({'message': f'Company: {company_name} not found'}, 400)
 
-    @staticmethod
-    def post(company_name: str) -> Response:
+    def post(self, company_name: str) -> Response:
         if CompanyModel.find_by_name(company_name):
             return make_response({'message': f'Company: {company_name} already exists'})
         data = CompanyResource.parser.parse_args()
         try:
-            company = CompanyModel(company_name, **data)
+            company = CompanyModel(company_name=company_name, **data)
             company.add()
             return make_response(company.to_dict(), 201)
         except Exception:
             return make_response({'message': 'Error occurred'}, 400)
 
-    @staticmethod
-    def put(company_name: str) -> Response:
+    def put(self, company_name: str) -> Response:
         if result := CompanyModel.find_by_name(company_name):
             data = CompanyResource.parser.parse_args()
             try:
@@ -41,8 +38,7 @@ class CompanyResource(Resource):
                 return make_response({'message': 'Error occurred'}, 400)
         return make_response({'message': f'Company: {company_name} does not exist'}, 400)
 
-    @staticmethod
-    def delete(company_name: str) -> Response:
+    def delete(self, company_name: str) -> Response:
         if result := CompanyModel.find_by_name(company_name):
             result.delete()
             return make_response({'message': f'Company: {company_name} deleted'}, 200)
@@ -53,12 +49,10 @@ class CompanyListResource(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('companies', type=list, required=True, help='No data provided', location='json')
 
-    @staticmethod
-    def get() -> Response:
+    def get(self) -> Response:
         return make_response({'companies': [company.to_dict() for company in CompanyModel.query.all()]}, 200)
 
-    @staticmethod
-    def post() -> Response:
+    def post(self) -> Response:
         parsed = CompanyListResource.parser.parse_args()
         for data in parsed.get('companies'):
             if result := CompanyModel.find_by_name(data.get('company_name')):

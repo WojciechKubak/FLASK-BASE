@@ -1,43 +1,22 @@
 from app.db.configuration import sa
 from decimal import Decimal
 from typing import Any, Self
+from sqlalchemy.orm import Mapped, mapped_column
 
 
 class EmployeeModel(sa.Model):
 
     __tablename__ = 'employees'
 
-    id = sa.Column(sa.Integer, primary_key=True)
-    full_name = sa.Column(sa.String(255))
-    position = sa.Column(sa.String(255))
-    age = sa.Column(sa.Integer)
-    employment_tenure = sa.Column(sa.Integer)
-    department = sa.Column(sa.String(255))
-    salary = sa.Column(sa.Numeric(precision=6, scale=2))
-    performance_rating = sa.Column(sa.JSON)
-    company_id = sa.Column(sa.Integer, sa.ForeignKey('companies.id'))
-
-    company = sa.relationship('CompanyModel', backref=sa.backref('employees'), lazy=True)
-
-    def __init__(
-            self,
-            full_name: str,
-            position: str,
-            age: int,
-            employment_tenure: int,
-            department: str,
-            salary: Decimal,
-            performance_rating: dict[str, Any],
-            company_id: int
-    ):
-        self.full_name = full_name
-        self.position = position
-        self.age = age
-        self.employment_tenure = employment_tenure
-        self.department = department
-        self.salary = salary
-        self.performance_rating = performance_rating
-        self.company_id = company_id
+    id: Mapped[int] = mapped_column(primary_key=True)
+    full_name: Mapped[str]
+    position: Mapped[str]
+    age: Mapped[int]
+    employment_tenure: Mapped[int]
+    department: Mapped[int]
+    salary: Mapped[Decimal]
+    performance_rating: Mapped[dict[str, Any]] = mapped_column(type_=sa.JSON)
+    company_id: Mapped[int] = mapped_column(sa.Integer, sa.ForeignKey('companies.id'))
 
     def to_dict(self) -> dict[str, Any]:
         return {
