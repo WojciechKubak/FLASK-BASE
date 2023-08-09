@@ -11,8 +11,6 @@ from alembic import op
 import sqlalchemy as sa
 from sqlalchemy.sql import func
 
-from datetime import datetime
-
 
 # revision identifiers, used by Alembic.
 revision: str = '7374b84bae52'
@@ -28,8 +26,8 @@ def upgrade() -> None:
         sa.Column('company_name', sa.String(255)),
         sa.Column('street', sa.String(255)),
         sa.Column('city', sa.String(255)),
-        sa.Column('postal_code', sa.String(20)),
-        sa.Column('state', sa.String(20)),
+        sa.Column('postal_code', sa.String(255)),
+        sa.Column('state', sa.String(255)),
         sa.Column('country', sa.String(255)),
         sa.Column('created_at', sa.TIMESTAMP, default=func.now(), server_default=sa.text('CURRENT_TIMESTAMP')),
     )
