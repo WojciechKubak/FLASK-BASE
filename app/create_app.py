@@ -15,7 +15,7 @@ def create_app():
     with app.app_context():
 
         # database configuration
-        url = MySQLConnectionPoolBuilder().set_config_params({'host': 'mysql'}).build_connection_string()
+        url = MySQLConnectionPoolBuilder().set_host('mysql').build_connection_string()
         app.config['SQLALCHEMY_DATABASE_URI'] = url
         app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
         sa.init_app(app)

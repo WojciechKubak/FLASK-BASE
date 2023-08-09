@@ -16,11 +16,24 @@ class MySQLConnectionPoolBuilder:
                 'port': 3307
             }
 
-    def set_config_params(self, params: dict[str, Any]) -> Self:
-        available_keys = self.config.keys()
-        if not all([k in available_keys for k in params.keys()]):
-            raise AttributeError('Parameter name out of pool.')
-        self.config = self.config | params
+    def set_host(self, new_host: str) -> Self:
+        self.config['host'] = new_host
+        return self
+
+    def set_database(self, new_database: str) -> Self:
+        self.config['database'] = new_database
+        return self
+
+    def set_user(self, new_user: str) -> Self:
+        self.config['user'] = new_user
+        return self
+
+    def set_password(self, new_password: str) -> Self:
+        self.config['password'] = new_password
+        return self
+
+    def set_port(self, new_port: int) -> Self:
+        self.config['port'] = new_port
         return self
 
     def build_connection_string(self) -> str:
