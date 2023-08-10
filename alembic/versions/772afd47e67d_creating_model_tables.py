@@ -1,8 +1,8 @@
-"""create tables
+"""creating model tables
 
-Revision ID: 7374b84bae52
+Revision ID: 772afd47e67d
 Revises: 
-Create Date: 2023-08-05 15:07:29.965930
+Create Date: 2023-08-09 20:29:39.400229
 
 """
 from typing import Sequence, Union

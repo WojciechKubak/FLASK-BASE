@@ -44,6 +44,12 @@ class EmployeeModel(sa.Model):
         sa.session.delete(self)
         sa.session.commit()
 
+    def get_performance_average(self) -> Any:
+        ratings = list(self.performance_rating.values())
+        if len(ratings) == 1:
+            return ratings[0]
+        return sum(ratings) / len(ratings) if ratings else None
+
     @classmethod
     def find_by_name(cls: Self, name: str) -> Self:
         return EmployeeModel.query.filter_by(full_name=name).first()
