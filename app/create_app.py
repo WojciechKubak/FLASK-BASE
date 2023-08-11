@@ -5,9 +5,11 @@ from app.routes.company import CompanyResource, CompanyListResource
 from app.routes.employee import EmployeeResource, EmployeeListResource
 from app.routes.user import UserResource
 from app.routes.statistics.routes import statistics_blueprint
-from flask import jsonify
+from flask import jsonify, Flask
 from flask_restful import Api
 import logging
+
+app = Flask(__name__)
 
 
 def create_app():
@@ -34,6 +36,5 @@ def create_app():
         api.add_resource(CompanyResource, '/companies/<string:company_name>')
         api.add_resource(EmployeeListResource, '/employees')
         api.add_resource(EmployeeResource, '/employees/<string:full_name>')
-        api.add_resource(UserResource, '/users')
 
         return app
