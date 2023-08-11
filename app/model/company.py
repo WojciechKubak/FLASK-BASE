@@ -1,7 +1,9 @@
-from app.db.configuration import sa
-from typing import Any, Self
-from sqlalchemy.orm import Mapped, mapped_column
 from app.model.employee import EmployeeModel
+from app.db.configuration import sa
+from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import func
+from datetime import datetime
+from typing import Any, Self
 
 
 class CompanyModel(sa.Model):
@@ -16,6 +18,8 @@ class CompanyModel(sa.Model):
     state: Mapped[str]
     country: Mapped[str]
     employees: Mapped[list[EmployeeModel]] = sa.relationship(EmployeeModel, backref='companies')
+    created_at: Mapped[datetime] = mapped_column(insert_default=func.utc_timestamp())
+    updated_at: Mapped[datetime] = mapped_column(insert_default=func.utc_timestamp(), onupdate=func.utc_timestamp())
 
     def to_dict(self) -> dict[str, Any]:
         return {

@@ -1,9 +1,7 @@
-from app.web.configuration import app
 from app.db.configuration import sa
 from app.db.connection import MySQLConnectionPoolBuilder
 from app.routes.company import CompanyResource, CompanyListResource
 from app.routes.employee import EmployeeResource, EmployeeListResource
-from app.routes.user import UserResource
 from app.routes.statistics.routes import statistics_blueprint
 from flask import jsonify, Flask
 from flask_restful import Api

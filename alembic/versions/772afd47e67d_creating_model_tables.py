@@ -29,7 +29,8 @@ def upgrade() -> None:
         sa.Column('postal_code', sa.String(255)),
         sa.Column('state', sa.String(255)),
         sa.Column('country', sa.String(255)),
-        sa.Column('created_at', sa.TIMESTAMP, default=func.now(), server_default=sa.text('CURRENT_TIMESTAMP')),
+        sa.Column('created_at', sa.TIMESTAMP),
+        sa.Column('updated_at', sa.TIMESTAMP),
     )
     op.create_table(
         'employees',
