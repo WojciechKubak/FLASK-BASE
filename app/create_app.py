@@ -1,7 +1,8 @@
-from app.db.configuration import sa
 from app.db.connection import MySQLConnectionPoolBuilder
 from app.routes.company import CompanyResource, CompanyListResource
 from app.routes.employee import EmployeeResource, EmployeeListResource
+from app.routes.user import UserResource
+from app.db.configuration import sa
 from app.routes.statistics.routes import statistics_blueprint
 from flask import jsonify, Flask
 from flask_restful import Api
@@ -30,9 +31,11 @@ def create_app():
 
         # register resources
         api = Api(app)
+
         api.add_resource(CompanyListResource, '/companies')
         api.add_resource(CompanyResource, '/companies/<string:company_name>')
         api.add_resource(EmployeeListResource, '/employees')
         api.add_resource(EmployeeResource, '/employees/<string:full_name>')
+        api.add_resource(UserResource, '/users/<string:username>')
 
         return app

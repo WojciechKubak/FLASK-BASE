@@ -22,12 +22,13 @@ def upgrade() -> None:
     op.create_table(
         'users',
         sa.Column('id', sa.Integer, primary_key=True, autoincrement=True),
-        sa.Column('name', sa.String(255)),
-        sa.Column('password_hash', sa.String(255)),
+        sa.Column('username', sa.String(255)),
+        sa.Column('password', sa.String(255)),
         sa.Column('email', sa.String(255)),
         sa.Column('role', sa.String(255)),
         sa.Column('is_active', sa.Boolean),
-        sa.Column('created_at', sa.TIMESTAMP)
+        sa.Column('created_at', sa.TIMESTAMP),
+        sa.Column('updated_at', sa.TIMESTAMP),
     )
 
 
