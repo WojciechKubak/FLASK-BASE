@@ -1,9 +1,9 @@
 from app.db.connection import MySQLConnectionPoolBuilder
 from app.routes.company import CompanyResource, CompanyListResource
 from app.routes.employee import EmployeeResource, EmployeeListResource
+from app.routes.statistics import statistics_blueprint
 from app.routes.user import UserResource
 from app.db.configuration import sa
-from app.routes.statistics.routes import statistics_blueprint
 from flask import jsonify, Flask
 from flask_restful import Api
 import logging
@@ -29,9 +29,9 @@ def create_app():
         def index():
             return jsonify({'message': 'This is home page'})
 
-        # register resources
         api = Api(app)
 
+        # register resources
         api.add_resource(CompanyListResource, '/companies')
         api.add_resource(CompanyResource, '/companies/<string:company_name>')
         api.add_resource(EmployeeListResource, '/employees')
