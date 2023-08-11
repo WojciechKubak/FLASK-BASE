@@ -44,7 +44,8 @@ def upgrade() -> None:
         sa.Column('performance_rating', sa.JSON),
         sa.Column('company_id', sa.Integer),
         sa.ForeignKeyConstraint(['company_id'], ['companies.id']),
-        sa.Column('created_at', sa.TIMESTAMP, default=func.now(), server_default=sa.text('CURRENT_TIMESTAMP')),
+        sa.Column('created_at', sa.TIMESTAMP),
+        sa.Column('updated_at', sa.TIMESTAMP),
     )
 
 

@@ -1,4 +1,4 @@
-from app.model.employee import EmployeeModel
+from app.service.employee import EmployeeService
 from flask_restful import Resource, reqparse
 from flask import make_response, Response
 from decimal import Decimal
@@ -15,37 +15,34 @@ class EmployeeResource(Resource):
     parser.add_argument('company_id', type=int, required=True, help='company_id field required')
 
     def get(self, full_name: str) -> Response:
-        result = EmployeeModel.find_by_name(full_name)
-        if result:
-            return make_response(result.to_dict(), 200)
-        return make_response({'message': f'Employee: {full_name} not found'}, 400)
+        try:
+            employee = EmployeeService().get_employee_by_name(full_name)
+            return make_response(employee.to_dict(), 200)
+        except Exception as e:
+            return make_response({'message': e.args[0]}, 400)
 
     def post(self, full_name: str) -> Response:
-        if EmployeeModel.find_by_name(full_name):
-            return make_response({'message': f'Employee: {full_name} already exists'})
         data = EmployeeResource.parser.parse_args()
         try:
-            employee = EmployeeModel(full_name=full_name, **data)
-            employee.add()
-            return make_response(employee.to_dict(), 201)
-        except Exception:
-            return make_response({'message': 'Error occurred'}, 400)
+            EmployeeService().add_employee(data | {'full_name': full_name})
+            return make_response({'message': 'Employee added'}, 201)
+        except Exception as e:
+            return make_response({'message': e.args[0]}, 400)
 
     def put(self, full_name: str) -> Response:
-        if result := EmployeeModel.find_by_name(full_name):
-            data = EmployeeResource.parser.parse_args()
-            try:
-                result.update(data)
-                return make_response({'message': 'Record updated successfully'}, 200)
-            except Exception:
-                return make_response({'message': 'Error occurred'}, 400)
-        return make_response({'message': f'Employee: {full_name} does not exist'}, 400)
+        data = EmployeeResource.parser.parse_args()
+        try:
+            EmployeeService().update_employee(data | {'full_name': full_name})
+            return make_response({'message': 'Employee updated'}, 201)
+        except Exception as e:
+            return make_response({'message': e.args[0]}, 400)
 
     def delete(self, full_name: str) -> Response:
-        if result := EmployeeModel.find_by_name(full_name):
-            result.delete()
-            return make_response({'message': f'Employee: {full_name} deleted'}, 200)
-        return make_response({'message': f'Employee: {full_name} does not exist'}, 400)
+        try:
+            EmployeeService().delete_employee(full_name)
+            return make_response({'message': 'Employee deleted'})
+        except Exception as e:
+            return make_response({'message': e.args[0]}, 400)
 
 
 class EmployeeListResource(Resource):
@@ -53,13 +50,13 @@ class EmployeeListResource(Resource):
     parser.add_argument('employees', type=list, required=True, help='No data provided', location='json')
 
     def get(self) -> Response:
-        return make_response({'employees': [employee.to_dict() for employee in EmployeeModel.query.all()]}, 200)
+        employees = EmployeeService().get_all_employees()
+        return make_response({'employees': [employee.to_dict() for employee in employees]}, 200)
 
     def post(self) -> Response:
         parsed = EmployeeListResource.parser.parse_args()
-        for data in parsed.get('employees'):
-            if result := EmployeeModel.find_by_name(data.get('full_name')):
-                result.update(data)
-            else:
-                EmployeeModel(**data).add()
-        return make_response({'message': 'Records added successfully'}, 201)
+        try:
+            EmployeeService().add_or_update_many(parsed.get('employees'))
+            return make_response({'message': 'Employees added'}, 201)
+        except Exception as e:
+            return make_response({'message': e.args[0]}, 400)

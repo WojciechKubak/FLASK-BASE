@@ -1,14 +1,16 @@
 from app.db.configuration import sa
+from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import func
+from datetime import datetime
 from decimal import Decimal
 from typing import Any, Self
-from sqlalchemy.orm import Mapped, mapped_column
 
 
 class EmployeeModel(sa.Model):
 
     __tablename__ = 'employees'
 
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[int] = mapped_column(sa.Integer(), primary_key=True)
     full_name: Mapped[str]
     position: Mapped[str]
     age: Mapped[int]
@@ -17,6 +19,8 @@ class EmployeeModel(sa.Model):
     salary: Mapped[Decimal]
     performance_rating: Mapped[dict[str, Any]] = mapped_column(type_=sa.JSON)
     company_id: Mapped[int] = mapped_column(sa.Integer, sa.ForeignKey('companies.id'))
+    created_at: Mapped[datetime] = mapped_column(default=func.utc_timestamp())
+    updated_at: Mapped[datetime] = mapped_column(default=func.utc_timestamp(), onupdate=func.utc_timestamp())
 
     def to_dict(self) -> dict[str, Any]:
         return {
