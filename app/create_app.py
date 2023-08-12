@@ -4,6 +4,7 @@ from app.routes.employee import EmployeeResource, EmployeeListResource
 from app.routes.statistics import statistics_blueprint
 from app.email.configuration import MailConfig
 from app.routes.user import UserResource, UserActivationResource
+from app.security.configuration import configure_security
 from app.db.configuration import sa
 from flask import jsonify, Flask
 from flask_restful import Api
@@ -38,9 +39,11 @@ def create_app():
             'MAIL_USERNAME': os.environ.get('MAIL_USERNAME'),
             'MAIL_PASSWORD': os.environ.get('MAIL_PASSWORD')
         }
-
         flask_app.config.update(mail_settings)
         MailConfig.prepare_mail(flask_app)
+
+        # configure security
+        configure_security(flask_app)
 
         # register blueprints
         flask_app.register_blueprint(statistics_blueprint)

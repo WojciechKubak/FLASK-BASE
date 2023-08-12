@@ -37,12 +37,8 @@ class UserModel(sa.Model):
                 setattr(self, field_name, value)
         sa.session.commit()
 
-    def set_as_active(self) -> None:
-        setattr(self, 'is_active', True)
-        sa.session.commit()
-
     def check_password(self, password: str) -> bool:
-        return check_password_hash(self.password_hash, password)
+        return check_password_hash(self.password, password)
 
     def delete(self) -> None:
         sa.session.delete(self)
