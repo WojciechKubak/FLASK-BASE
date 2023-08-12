@@ -4,6 +4,7 @@ from app.routes.employee import EmployeeResource, EmployeeListResource
 from app.routes.statistics import statistics_blueprint
 from app.routes.user import UserResource
 from app.db.configuration import sa
+import app.signals
 from flask import jsonify, Flask
 from flask_restful import Api
 import logging
