@@ -1,6 +1,8 @@
+from app.email.configuration import MailConfig
 from app.service.user import UserService
 from flask_restful import Resource, reqparse
-from flask import make_response, Response
+from flask import make_response, Response, request
+from datetime import datetime
 
 
 class UserResource(Resource):
@@ -20,7 +22,8 @@ class UserResource(Resource):
         data = UserResource.parser.parse_args()
         try:
             UserService().add_user(data | {'username': username})
-            return make_response({'message': 'User created'}, 201)
+            MailConfig.send_mail(username, data['email'])
+            return make_response({'message': 'User created, activation email sent'}, 201)
         except Exception as e:
             return make_response({'message': e.args[0]}, 400)
 
@@ -38,3 +41,15 @@ class UserResource(Resource):
             return make_response({'message': 'User deleted'})
         except Exception as e:
             return make_response({'message': e.args[0]}, 400)
+
+
+class UserActivationResource(Resource):
+
+    def get(self) -> Response:
+        timestamp = float(request.args.get('timestamp'))
+        if timestamp < datetime.utcnow().timestamp() * 1000:
+            return make_response({'message': 'Activation link expired'}, 400)
+        user_service = UserService()
+        user = user_service.get_user_by_name(request.args.get('username'))
+        user_service.activate_user(user.username)
+        return make_response({'message': 'User activated'}, 200)
