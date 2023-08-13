@@ -7,7 +7,8 @@ import jwt
 
 @dataclass(frozen=True, order=True)
 class AuthorizationTokenGenerator:
-    user: UserModel
+    username: str
+    role: str
     token_config: dict[str, Any]
 
     def generate_tokens(self) -> tuple[str, str]:
@@ -21,7 +22,7 @@ class AuthorizationTokenGenerator:
         return self._build_token(access_token_payload), self._build_token(refresh_token_payload)
 
     def _get_base_payload(self) -> dict[str, Any]:
-        return {'iat': datetime.utcnow(), 'sub': self.user.username, 'role': self.user.role}
+        return {'iat': datetime.utcnow(), 'sub': self.username, 'role': self.role}
 
     def _build_token(self, token_payload: dict[str, Any]) -> str:
         return jwt.encode(token_payload, self.token_config['JWT_SECRET'], algorithm=self.token_config['JWT_AUTHTYPE'])
