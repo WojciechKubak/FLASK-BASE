@@ -39,6 +39,15 @@ class UserService:
         if user := UserModel.find_by_username(username):
             user.update({'is_active': True})
 
+    def check_login_credentials(self, username: str, password: str) -> UserModel:
+        if not (user := UserModel.find_by_username(username)):
+            raise ValueError('User does not exist')
+        if not user.check_password(password):
+            raise ValueError('Incorrect password provided')
+        if not user.is_active:
+            raise ValueError('User is not activated')
+        return user
+
     def check_user_password(self, username: str, password: str) -> None:
         user = UserModel.find_by_username(username)
         if not user.check_password(password):

@@ -1,5 +1,6 @@
 from app.email.configuration import MailConfig
 from app.service.user import UserService
+from app.security.token_required import token_required
 from flask_restful import Resource, reqparse
 from flask import make_response, Response, request
 from datetime import datetime
@@ -11,6 +12,7 @@ class UserResource(Resource):
     parser.add_argument('password', type=str, required=True, help='password field required')
     parser.add_argument('password_repeat', type=str, required=True, help='password_repeat field required')
 
+    @token_required(['admin'])
     def get(self, username: str) -> Response:
         try:
             user = UserService().get_user_by_name(username)
@@ -27,6 +29,7 @@ class UserResource(Resource):
         except Exception as e:
             return make_response({'message': e.args[0]}, 400)
 
+    @token_required(['user', 'admin'])
     def put(self, username: str) -> Response:
         data = UserResource.parser.parse_args()
         try:
@@ -35,6 +38,7 @@ class UserResource(Resource):
         except Exception as e:
             return make_response({'message': e.args[0]}, 400)
 
+    @token_required(['user', 'admin'])
     def delete(self, username: str) -> Response:
         try:
             UserService().delete_user(username)
@@ -45,6 +49,7 @@ class UserResource(Resource):
 
 class UserActivationResource(Resource):
 
+    @token_required(['user', 'admin'])
     def get(self) -> Response:
         timestamp = float(request.args.get('timestamp'))
         if timestamp < datetime.utcnow().timestamp() * 1000:

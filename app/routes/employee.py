@@ -1,4 +1,5 @@
 from app.service.employee import EmployeeService
+from app.security.token_required import token_required
 from flask_restful import Resource, reqparse
 from flask import make_response, Response
 from decimal import Decimal
@@ -21,6 +22,7 @@ class EmployeeResource(Resource):
         except Exception as e:
             return make_response({'message': e.args[0]}, 400)
 
+    @token_required(['user', 'admin'])
     def post(self, full_name: str) -> Response:
         data = EmployeeResource.parser.parse_args()
         try:
@@ -29,6 +31,7 @@ class EmployeeResource(Resource):
         except Exception as e:
             return make_response({'message': e.args[0]}, 400)
 
+    @token_required(['user', 'admin'])
     def put(self, full_name: str) -> Response:
         data = EmployeeResource.parser.parse_args()
         try:
@@ -37,6 +40,7 @@ class EmployeeResource(Resource):
         except Exception as e:
             return make_response({'message': e.args[0]}, 400)
 
+    @token_required(['user', 'admin'])
     def delete(self, full_name: str) -> Response:
         try:
             EmployeeService().delete_employee(full_name)
@@ -53,6 +57,7 @@ class EmployeeListResource(Resource):
         employees = EmployeeService().get_all_employees()
         return make_response({'employees': [employee.to_dict() for employee in employees]}, 200)
 
+    @token_required(['user', 'admin'])
     def post(self) -> Response:
         parsed = EmployeeListResource.parser.parse_args()
         try:

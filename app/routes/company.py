@@ -1,4 +1,5 @@
 from app.service.company import CompanyService
+from app.security.token_required import token_required
 from flask_restful import Resource, reqparse
 from flask import make_response, Response
 
@@ -18,6 +19,7 @@ class CompanyResource(Resource):
         except Exception as e:
             return make_response({'message': e.args[0]}, 400)
 
+    @token_required(['user', 'admin'])
     def post(self, company_name: str) -> Response:
         data = CompanyResource.parser.parse_args()
         try:
@@ -26,6 +28,7 @@ class CompanyResource(Resource):
         except Exception as e:
             return make_response({'message': e.args[0]}, 400)
 
+    @token_required(['user', 'admin'])
     def put(self, company_name: str) -> Response:
         data = CompanyResource.parser.parse_args()
         try:
@@ -34,6 +37,7 @@ class CompanyResource(Resource):
         except Exception as e:
             return make_response({'message': e.args[0]}, 400)
 
+    @token_required(['user', 'admin'])
     def delete(self, company_name: str) -> Response:
         try:
             CompanyService().delete_company(company_name)
@@ -50,6 +54,7 @@ class CompanyListResource(Resource):
         companies = CompanyService().get_all_companies()
         return make_response({'companies': [company.to_dict() for company in companies]}, 200)
 
+    @token_required(['user', 'admin'])
     def post(self) -> Response:
         parsed = CompanyListResource.parser.parse_args()
         try:
