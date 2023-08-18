@@ -1,18 +1,11 @@
 from app.security.token_manager import TokenManager
 from app.service.user import UserService
 from flask import Flask, Response, request, make_response
-import os
 
 
 def configure_security(app: Flask) -> None:
 
-    token_config = {
-        'JWT_AUTHTYPE': os.environ.get('JWT_AUTHTYPE'),
-        'JWT_SECRET': os.environ.get('JWT_SECRET'),
-        'JWT_AUTHMAXAGE': int(os.environ.get('JWT_AUTHMAXAGE')),
-        'JWT_REFRESHMAXAGE': int(os.environ.get('JWT_REFRESHMAXAGE'))
-    }
-    token_manager = TokenManager(token_config)
+    token_manager = TokenManager()
 
     @app.route('/login', methods=['POST'])
     def login() -> Response:

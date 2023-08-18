@@ -49,7 +49,6 @@ class UserResource(Resource):
 
 class UserActivationResource(Resource):
 
-    @token_required(['user', 'admin'])
     def get(self) -> Response:
         timestamp = float(request.args.get('timestamp'))
         if timestamp < datetime.utcnow().timestamp() * 1000:

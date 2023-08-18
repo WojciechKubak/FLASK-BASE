@@ -16,8 +16,10 @@ class CompanyResource(Resource):
         try:
             company = CompanyService().get_company_by_name(company_name)
             return make_response(company.to_dict(), 200)
-        except Exception as e:
+        except ValueError as e:
             return make_response({'message': e.args[0]}, 400)
+        except Exception as e:
+            return make_response({'message': 'Error occurred'}, 500)
 
     @token_required(['user', 'admin'])
     def post(self, company_name: str) -> Response:
