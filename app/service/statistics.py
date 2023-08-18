@@ -12,31 +12,41 @@ class StatisticsService:
         return {employee.full_name: employee.get_performance_average() for employee in EmployeeModel.query.all()}
 
     def get_best_or_worst_performing_employees(self, best: bool = True) -> list[EmployeeModel]:
+        if not (employees := EmployeeModel.query.all()):
+            return []
         grouped_employees_by_performance = defaultdict(list)
-        for employee in EmployeeModel.query.all():
+        for employee in employees:
             grouped_employees_by_performance[employee.get_performance_average()].append(employee)
         key = max(grouped_employees_by_performance) if best else min(grouped_employees_by_performance)
         return grouped_employees_by_performance[key]
 
     def get_employees_salary_average_mean(self) -> Decimal:
-        salaries = [employee.salary for employee in EmployeeModel.query.all()]
+        if not (employees := EmployeeModel.query.all()):
+            return Decimal('0')
+        salaries = [employee.salary for employee in employees]
         return sum(salaries) / len(salaries)
 
     def get_department_performance_overview(self) -> dict[str, Any]:
+        if not (employees := EmployeeModel.query.all()):
+            return {}
         departments_performance = defaultdict(list)
-        for employee in EmployeeModel.query.all():
+        for employee in employees:
             departments_performance[employee.department].append(employee.get_performance_average())
         return {department: sum(scores)/len(scores) for department, scores in departments_performance.items()}
 
     def get_department_employee_salary_overview(self) -> dict[str, Decimal]:
+        if not (employees := EmployeeModel.query.all()):
+            return {}
         departments_salaries = defaultdict(list)
-        for employee in EmployeeModel.query.all():
+        for employee in employees:
             departments_salaries[employee.department].append(employee.salary)
         return {department: sum(salaries)/len(salaries) for department, salaries in departments_salaries.items()}
 
     def get_employees_with_highest_or_lowest_salary(self, highest: bool = True) -> list[EmployeeModel]:
+        if not (employees := EmployeeModel.query.all()):
+            return []
         grouped_employees_by_salary = defaultdict(list)
-        for employee in EmployeeModel.query.all():
+        for employee in employees:
             grouped_employees_by_salary[employee.salary].append(employee)
         key = max(grouped_employees_by_salary) if highest else min(grouped_employees_by_salary)
         return grouped_employees_by_salary[key]
