@@ -57,3 +57,14 @@ class UserActivationResource(Resource):
         user = user_service.get_user_by_name(request.args.get('username'))
         user_service.activate_user(user.username)
         return make_response({'message': 'User activated'}, 200)
+
+
+class UserAdminRoleResource(Resource):
+
+    def post(self, username: str) -> Response:
+        data = UserResource.parser.parse_args()
+        try:
+            UserService().add_user(data | {'username': username}, is_admin=True)
+            return make_response({'message': 'Admin user created'}, 201)
+        except Exception as e:
+            return make_response({'message': e.args[0]}, 400)

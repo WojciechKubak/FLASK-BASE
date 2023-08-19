@@ -3,7 +3,7 @@ from app.routes.company import CompanyResource, CompanyListResource
 from app.routes.employee import EmployeeResource, EmployeeListResource
 from app.routes.statistics import statistics_blueprint
 from app.email.configuration import MailConfig
-from app.routes.user import UserResource, UserActivationResource
+from app.routes.user import UserResource, UserActivationResource, UserAdminRoleResource
 from app.security.configuration import configure_security
 from app.db.configuration import sa
 from flask import jsonify, Flask
@@ -64,5 +64,6 @@ def create_app():
         api.add_resource(EmployeeResource, '/employees/<string:full_name>')
         api.add_resource(UserResource, '/users/<string:username>')
         api.add_resource(UserActivationResource, '/users/activate')
+        api.add_resource(UserAdminRoleResource, '/admin/<string:username>')
 
         return flask_app
