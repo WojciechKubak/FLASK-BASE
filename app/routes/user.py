@@ -24,7 +24,7 @@ class UserResource(Resource):
         data = UserResource.parser.parse_args()
         try:
             UserService().add_user(data | {'username': username})
-            MailConfig.send_mail(username, data['email'])
+            MailConfig.send_activation_mail(username, data['email'])
             return make_response({'message': 'User created, activation email sent'}, 201)
         except Exception as e:
             return make_response({'message': e.args[0]}, 400)

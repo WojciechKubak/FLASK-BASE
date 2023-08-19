@@ -8,6 +8,7 @@ from app.security.configuration import configure_security
 from app.db.configuration import sa
 from flask import jsonify, Flask
 from flask_restful import Api
+from jinja2 import PackageLoader, Environment
 from dotenv import load_dotenv
 import app.signals
 import logging
@@ -21,6 +22,8 @@ def create_app():
 
     logging.basicConfig(level=logging.INFO)
     load_dotenv()
+
+    templates_env = Environment(loader=PackageLoader('app', 'templates'))
 
     with flask_app.app_context():
 
@@ -40,7 +43,7 @@ def create_app():
             'MAIL_PASSWORD': os.environ.get('MAIL_PASSWORD')
         }
         flask_app.config.update(mail_settings)
-        MailConfig.prepare_mail(flask_app)
+        MailConfig.prepare_mail(flask_app, templates_env)
 
         # configure security
         configure_security(flask_app)
