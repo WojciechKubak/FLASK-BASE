@@ -48,7 +48,7 @@ class CompanyJsonValidator(Validator):
 
     def validate(self, data: dict[str, Any]) -> dict[str, Any]:
         constraints = {
-            'company_name': lambda x: self.match_regex(x, self.company_name_regex),
+            'name': lambda x: self.match_regex(x, self.company_name_regex),
             'street': lambda x: self.match_regex(x, self.street_regex),
             'postal_code': lambda x: self.match_if_string_contains_non_negative_number(x, int),
             'city': lambda x: self.match_regex(x, self.city_regex),

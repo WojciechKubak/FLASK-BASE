@@ -11,7 +11,7 @@ class CompanyModel(sa.Model):
     __tablename__ = 'companies'
 
     id: Mapped[int] = mapped_column(sa.Integer(), primary_key=True)
-    company_name: Mapped[str]
+    name: Mapped[str]
     street: Mapped[str]
     city: Mapped[str]
     postal_code: Mapped[str]
@@ -23,7 +23,7 @@ class CompanyModel(sa.Model):
 
     def to_dict(self) -> dict[str, Any]:
         return {
-            'company': self.company_name,
+            'name': self.name,
             'street': self.street,
             'city': self.city,
             'postal_code': self.postal_code,
@@ -48,4 +48,4 @@ class CompanyModel(sa.Model):
 
     @classmethod
     def find_by_name(cls: Self, name: str) -> Self:
-        return CompanyModel.query.filter_by(company_name=name).first()
+        return CompanyModel.query.filter_by(name=name).first()
