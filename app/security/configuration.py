@@ -19,7 +19,8 @@ def configure_security(app: Flask) -> None:
     @app.route('/refresh', methods=['POST'])
     def refresh() -> Response:
         try:
-            token = request.cookies.get('refresh')
-            return token_manager.generete_response_with_refreshed_tokens(token)
+            if token := request.cookies.get('refresh'):
+                return token_manager.generete_response_with_refreshed_tokens(token)
+            return make_response({'message': 'Refresh token not found'}, 400)
         except Exception as e:
             return make_response({'message': str(e)}, 400)
