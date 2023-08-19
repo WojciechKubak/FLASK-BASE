@@ -49,3 +49,7 @@ class CompanyModel(sa.Model):
     @classmethod
     def find_by_name(cls: Self, name: str) -> Self:
         return CompanyModel.query.filter_by(name=name).first()
+
+    @classmethod
+    def find_by_id(cls: Self, id_: int) -> Self:
+        return CompanyModel.query.filter_by(id=id_).first()
