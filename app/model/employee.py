@@ -24,6 +24,7 @@ class EmployeeModel(sa.Model):
 
     def to_dict(self) -> dict[str, Any]:
         return {
+            'id': self.id,
             'full_name': self.full_name,
             'position': self.position,
             'age': self.age,

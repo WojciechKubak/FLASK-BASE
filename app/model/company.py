@@ -23,6 +23,7 @@ class CompanyModel(sa.Model):
 
     def to_dict(self) -> dict[str, Any]:
         return {
+            'id': self.id,
             'name': self.name,
             'street': self.street,
             'city': self.city,
