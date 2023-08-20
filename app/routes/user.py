@@ -20,6 +20,7 @@ class UserResource(Resource):
         except Exception as e:
             return make_response({'message': e.args[0]}, 400)
 
+    @token_required(['admin'])
     def post(self, username: str) -> Response:
         data = UserResource.parser.parse_args()
         try:
@@ -29,7 +30,7 @@ class UserResource(Resource):
         except Exception as e:
             return make_response({'message': e.args[0]}, 400)
 
-    @token_required(['user', 'admin'])
+    @token_required(['admin'])
     def put(self, username: str) -> Response:
         data = UserResource.parser.parse_args()
         try:
