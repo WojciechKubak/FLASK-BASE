@@ -35,12 +35,11 @@ class UserService:
     def update_user(self, data: dict[str, Any]) -> None:
         if not (user := UserModel.find_by_username(data['username'])):
             raise ValueError(self.USER_NOT_FOUND_ERROR_MSG)
-        if UserModel.find_by_email(data['email']):
-            raise ValueError('Email is already in use')
         if data['password'] != data['password_repeat']:
             raise ValueError('Passwords must be the same')
 
         self.user_validator.validate(data)
+        data['password'] = generate_password_hash(data['password'])
 
         user.update(data)
 

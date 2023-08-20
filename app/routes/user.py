@@ -39,7 +39,7 @@ class UserResource(Resource):
         except Exception as e:
             return make_response({'message': e.args[0]}, 400)
 
-    @token_required(['user', 'admin'])
+    @token_required(['admin'])
     def delete(self, username: str) -> Response:
         try:
             UserService().delete_user(username)
