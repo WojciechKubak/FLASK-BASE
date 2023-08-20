@@ -1,3 +1,4 @@
+from app.web.configuration import flask_app
 from app.db.connection import MySQLConnectionPoolBuilder
 from app.routes.company import CompanyResource, CompanyListResource
 from app.routes.employee import EmployeeResource, EmployeeListResource
@@ -6,7 +7,7 @@ from app.email.configuration import MailConfig
 from app.routes.user import UserResource, UserActivationResource, UserAdminRoleResource
 from app.security.configuration import configure_security
 from app.db.configuration import sa
-from flask import jsonify, Flask
+from flask import jsonify
 from flask_restful import Api
 from jinja2 import PackageLoader, Environment
 from dotenv import load_dotenv
@@ -14,8 +15,6 @@ import app.signals
 import logging
 import ast
 import os
-
-flask_app = Flask(__name__)
 
 
 def create_app():
