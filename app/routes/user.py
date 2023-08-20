@@ -34,8 +34,8 @@ class UserResource(Resource):
     def put(self, username: str) -> Response:
         data = UserResource.parser.parse_args()
         try:
-            UserService().update_user(data | {'username': username})
-            return make_response({'message': 'User updated'}, 201)
+            user = UserService().update_user(data | {'username': username})
+            return make_response(user.to_dict(), 201)
         except Exception as e:
             return make_response({'message': e.args[0]}, 400)
 
