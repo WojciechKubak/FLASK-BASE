@@ -40,7 +40,7 @@ def upgrade() -> None:
         sa.Column('age', sa.Integer),
         sa.Column('employment_tenure', sa.String(255)),
         sa.Column('department', sa.String(255)),
-        sa.Column('salary', sa.Numeric(precision=6, scale=2)),
+        sa.Column('salary', sa.Numeric(precision=8, scale=2)),
         sa.Column('performance_rating', sa.JSON),
         sa.Column('company_id', sa.Integer),
         sa.ForeignKeyConstraint(['company_id'], ['companies.id']),
