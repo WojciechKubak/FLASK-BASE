@@ -30,7 +30,7 @@ class EmployeeModel(sa.Model):
             'age': self.age,
             'employment_tenure': self.employment_tenure,
             'department': self.department,
-            'salary': self.salary,
+            'salary': float(self.salary),
             'performance_rating': self.performance_rating,
             'company_id': self.company_id
         }
