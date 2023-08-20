@@ -49,7 +49,7 @@ class EmployeeService:
 
     def add_or_update_many(self, data: list[dict[str, Any]]) -> None:
         for record in data:
-            if CompanyModel.find_by_id(record['company_id']):
+            if EmployeeModel.find_by_name(record['full_name']):
                 self.update_employee(record)
             else:
                 self.add_employee(record)
