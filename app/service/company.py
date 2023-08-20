@@ -46,9 +46,8 @@ class CompanyService:
         return CompanyModel.query.all()
 
     def add_or_update_many(self, data: list[dict[str, Any]]) -> None:
-        [self.company_validator.validate(record) for record in data]
         for record in data:
-            if result := CompanyModel.find_by_name(record['name']):
-                result.update(record)
+            if CompanyModel.find_by_name(record['name']):
+                self.update_company(record)
             else:
-                CompanyModel(**record).add()
+                self.add_company(record)
