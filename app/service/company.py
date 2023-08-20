@@ -14,18 +14,23 @@ class CompanyService:
         _company_constraints = json.loads(os.environ.get('COMPANY_CONSTRAINTS'))
         self.company_validator = CompanyJsonValidator(**_company_constraints)
 
-    def add_company(self, data: dict[str, Any]) -> None:
+    def add_company(self, data: dict[str, Any]) -> CompanyModel:
         if CompanyModel.find_by_name(data['name']):
             raise ValueError('Company already exists')
+
         self.company_validator.validate(data)
         company = CompanyModel(**data)
         company.add()
 
-    def update_company(self, data: dict[str, Any]) -> None:
+        return company
+
+    def update_company(self, data: dict[str, Any]) -> CompanyModel:
         if not (company := CompanyModel.find_by_name(data['name'])):
             raise ValueError(self.COMPANY_NOT_FOUND_ERROR_MSG)
+        
         self.company_validator.validate(data)
         company.update(data)
+        return company
 
     def delete_company(self, name: str) -> None:
         if not (company := CompanyModel.find_by_name(name)):

@@ -15,7 +15,7 @@ class EmployeeService:
         _employee_constraints = json.loads(os.environ.get('EMPLOYEE_CONSTRAINTS'))
         self.employee_validator = EmployeeJsonValidator(**_employee_constraints)
 
-    def add_employee(self, data: dict[str, Any]) -> None:
+    def add_employee(self, data: dict[str, Any]) -> EmployeeModel:
         if EmployeeModel.find_by_name(data['full_name']):
             raise ValueError('Employee already exists')
         if not CompanyModel.find_by_id(data['company_id']):
@@ -25,7 +25,9 @@ class EmployeeService:
         employee = EmployeeModel(**data)
         employee.add()
 
-    def update_employee(self, data: dict[str, Any]) -> None:
+        return employee
+
+    def update_employee(self, data: dict[str, Any]) -> EmployeeModel:
         if not CompanyModel.find_by_id(data['company_id']):
             raise ValueError('Company id not found')
         if not (employee := EmployeeModel.find_by_name(data['full_name'])):
@@ -33,6 +35,8 @@ class EmployeeService:
 
         self.employee_validator.validate(data)
         employee.update(data)
+
+        return employee
 
     def delete_employee(self, name: str) -> None:
         if not (employee := EmployeeModel.find_by_name(name)):

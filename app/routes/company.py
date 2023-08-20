@@ -25,8 +25,8 @@ class CompanyResource(Resource):
     def post(self, company_name: str) -> Response:
         data = CompanyResource.parser.parse_args()
         try:
-            CompanyService().add_company(data | {'name': company_name})
-            return make_response({'message': 'Company added'}, 201)
+            company = CompanyService().add_company(data | {'name': company_name})
+            return make_response(company.to_dict(), 201)
         except Exception as e:
             return make_response({'message': e.args[0]}, 400)
 
@@ -34,8 +34,8 @@ class CompanyResource(Resource):
     def put(self, company_name: str) -> Response:
         data = CompanyResource.parser.parse_args()
         try:
-            CompanyService().update_company(data | {'name': company_name})
-            return make_response({'message': 'Company updated'}, 201)
+            company = CompanyService().update_company(data | {'name': company_name})
+            return make_response(company.to_dict(), 201)
         except Exception as e:
             return make_response({'message': e.args[0]}, 400)
 

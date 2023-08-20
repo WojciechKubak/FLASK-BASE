@@ -26,8 +26,8 @@ class EmployeeResource(Resource):
     def post(self, full_name: str) -> Response:
         data = EmployeeResource.parser.parse_args()
         try:
-            EmployeeService().add_employee(data | {'full_name': full_name})
-            return make_response({'message': 'Employee added'}, 201)
+            employee = EmployeeService().add_employee(data | {'full_name': full_name})
+            return make_response(employee.to_dict(), 201)
         except Exception as e:
             return make_response({'message': e.args[0]}, 400)
 
@@ -35,8 +35,8 @@ class EmployeeResource(Resource):
     def put(self, full_name: str) -> Response:
         data = EmployeeResource.parser.parse_args()
         try:
-            EmployeeService().update_employee(data | {'full_name': full_name})
-            return make_response({'message': 'Employee updated'}, 201)
+            employee = EmployeeService().update_employee(data | {'full_name': full_name})
+            return make_response(employee.to_dict(), 201)
         except Exception as e:
             return make_response({'message': e.args[0]}, 400)
 
