@@ -7,6 +7,7 @@ from app.email.configuration import MailConfig
 from app.routes.user import UserResource, UserActivationResource, UserAdminRoleResource
 from app.security.configuration import configure_security
 from app.db.configuration import sa
+from flask_jwt_extended import JWTManager
 from flask import jsonify
 from flask_restful import Api
 from jinja2 import PackageLoader, Environment
@@ -31,6 +32,18 @@ def create_app():
         flask_app.config['SQLALCHEMY_DATABASE_URI'] = url
         flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
         sa.init_app(flask_app)
+
+        # security configuration
+        jwt_settings = {
+            'JWT_COOKIE_SECURE': ast.literal_eval(os.environ.get('JWT_COOKIE_SECURE')),
+            'JWT_TOKEN_LOCATION': ast.literal_eval(os.environ.get('JWT_TOKEN_LOCATION')),
+            'JWT_SECRET_KEY': os.environ.get('JWT_SECRET_KEY'),
+            'JWT_ACCESS_TOKEN_EXPIRES': int(os.environ.get('JWT_ACCESS_TOKEN_EXPIRES')),
+            'JWT_REFRESH_TOKEN_EXPIRES': int(os.environ.get('JWT_REFRESH_TOKEN_EXPIRES')),
+            'JWT_COOKIE_CSRF_PROTECT': ast.literal_eval(os.environ.get('JWT_COOKIE_CSRF_PROTECT'))
+        }
+        flask_app.config.update(jwt_settings)
+        jwt = JWTManager(flask_app)
 
         # email configuration
         mail_settings = {
