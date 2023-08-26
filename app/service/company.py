@@ -45,9 +45,6 @@ class CompanyService:
     def get_all_companies(self) -> list[CompanyModel]:
         return CompanyModel.query.all()
 
-    def add_or_update_many(self, data: list[dict[str, Any]]) -> None:
-        for record in data:
-            if CompanyModel.find_by_name(record['name']):
-                self.update_company(record)
-            else:
-                self.add_company(record)
+    def add_or_update_many(self, data: list[dict[str, Any]]) -> list[CompanyModel]:
+        return [self.update_company(record) if CompanyModel.find_by_name(record['name'])
+                else self.add_company(record) for record in data]

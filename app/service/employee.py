@@ -51,9 +51,6 @@ class EmployeeService:
     def get_all_employees(self) -> list[EmployeeModel]:
         return EmployeeModel.query.all()
 
-    def add_or_update_many(self, data: list[dict[str, Any]]) -> None:
-        for record in data:
-            if EmployeeModel.find_by_name(record['full_name']):
-                self.update_employee(record)
-            else:
-                self.add_employee(record)
+    def add_or_update_many(self, data: list[dict[str, Any]]) -> list[EmployeeModel]:
+        return [self.update_employee(record) if EmployeeModel.find_by_name(record['full_name'])
+                else self.add_employee(record) for record in data]

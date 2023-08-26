@@ -60,7 +60,7 @@ class CompanyListResource(Resource):
     def post(self) -> Response:
         parsed = CompanyListResource.parser.parse_args()
         try:
-            CompanyService().add_or_update_many(parsed.get('companies'))
-            return make_response({'message': 'Companies added'}, 201)
+            companies = CompanyService().add_or_update_many(parsed.get('companies'))
+            return make_response({'companies': [company.to_dict() for company in companies]}, 201)
         except Exception as e:
             return make_response({'message': e.args[0]}, 400)

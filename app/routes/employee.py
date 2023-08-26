@@ -61,7 +61,7 @@ class EmployeeListResource(Resource):
     def post(self) -> Response:
         parsed = EmployeeListResource.parser.parse_args()
         try:
-            EmployeeService().add_or_update_many(parsed.get('employees'))
-            return make_response({'message': 'Employees added'}, 201)
+            employees = EmployeeService().add_or_update_many(parsed.get('employees'))
+            return make_response({'employees': [employee.to_dict() for employee in employees]}, 201)
         except Exception as e:
             return make_response({'message': e.args[0]}, 400)
