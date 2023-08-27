@@ -19,8 +19,6 @@ class CompanyResource(Resource):
             return make_response(company.to_dict(), 200)
         except ValueError as e:
             return make_response({'message': e.args[0]}, 400)
-        except Exception as e:
-            return make_response({'message': 'Error occurred'}, 500)
 
     @token_required(['user', 'admin'])
     def post(self, company_name: str) -> Response:
@@ -28,7 +26,7 @@ class CompanyResource(Resource):
         try:
             company = CompanyService().add_company(data | {'name': company_name})
             return make_response(company.to_dict(), 201)
-        except Exception as e:
+        except ValueError as e:
             return make_response({'message': e.args[0]}, 400)
 
     @token_required(['user', 'admin'])
@@ -37,7 +35,7 @@ class CompanyResource(Resource):
         try:
             company = CompanyService().update_company(data | {'name': company_name})
             return make_response(company.to_dict(), 201)
-        except Exception as e:
+        except ValueError as e:
             return make_response({'message': e.args[0]}, 400)
 
     @token_required(['user', 'admin'])
@@ -45,7 +43,7 @@ class CompanyResource(Resource):
         try:
             CompanyService().delete_company(company_name)
             return make_response({'message': 'Company deleted'})
-        except Exception as e:
+        except ValueError as e:
             return make_response({'message': e.args[0]}, 400)
 
 
@@ -63,5 +61,5 @@ class CompanyListResource(Resource):
         try:
             companies = CompanyService().add_or_update_many(parsed.get('companies'))
             return make_response({'companies': [company.to_dict() for company in companies]}, 201)
-        except Exception as e:
+        except ValueError as e:
             return make_response({'message': e.args[0]}, 400)

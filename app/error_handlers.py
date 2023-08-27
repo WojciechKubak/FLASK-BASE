@@ -8,5 +8,10 @@ def not_found_error(error: int) -> Response:
 
 
 @flask_app.errorhandler(500)
-def internal_server_error(error: int):
+def internal_server_error(error: int) -> Response:
     return make_response({'message': 'Internal server error'}, error)
+
+
+@flask_app.errorhandler(400)
+def bad_request_error(error: int) -> Response:
+    return make_response({'message': 'Bad request'}, error)

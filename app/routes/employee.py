@@ -19,7 +19,7 @@ class EmployeeResource(Resource):
         try:
             employee = EmployeeService().get_employee_by_name(full_name)
             return make_response(employee.to_dict(), 200)
-        except Exception as e:
+        except ValueError as e:
             return make_response({'message': e.args[0]}, 400)
 
     @token_required(['user', 'admin'])
@@ -28,7 +28,7 @@ class EmployeeResource(Resource):
         try:
             employee = EmployeeService().add_employee(data | {'full_name': full_name})
             return make_response(employee.to_dict(), 201)
-        except Exception as e:
+        except ValueError as e:
             return make_response({'message': e.args[0]}, 400)
 
     @token_required(['user', 'admin'])
@@ -37,7 +37,7 @@ class EmployeeResource(Resource):
         try:
             employee = EmployeeService().update_employee(data | {'full_name': full_name})
             return make_response(employee.to_dict(), 201)
-        except Exception as e:
+        except ValueError as e:
             return make_response({'message': e.args[0]}, 400)
 
     @token_required(['user', 'admin'])
@@ -45,7 +45,7 @@ class EmployeeResource(Resource):
         try:
             EmployeeService().delete_employee(full_name)
             return make_response({'message': 'Employee deleted'})
-        except Exception as e:
+        except ValueError as e:
             return make_response({'message': e.args[0]}, 400)
 
 
@@ -63,5 +63,5 @@ class EmployeeListResource(Resource):
         try:
             employees = EmployeeService().add_or_update_many(parsed.get('employees'))
             return make_response({'employees': [employee.to_dict() for employee in employees]}, 201)
-        except Exception as e:
+        except ValueError as e:
             return make_response({'message': e.args[0]}, 400)
