@@ -18,7 +18,7 @@ class Validator(ABC):
     @staticmethod
     def validate_value(data: dict[str, Any], key: str, constraint: Callable) -> str:
         if not (to_validate := data.get(key)):
-            return 'key not found'
+            return 'field required'
         if constraint(to_validate):
             return ''
         return 'does not match condition'
@@ -55,11 +55,13 @@ class CompanyJsonValidator(Validator):
             'state': lambda x: self.match_regex(x, self.state_regex),
             'country': lambda x: self.match_regex(x, self.country_regex),
         }
+
         for key, constraint in constraints.items():
             if result := self.validate_value(data, key, constraint):
                 self._errors[key] = result
         if len(self._errors) > 0:
-            raise ValueError(self.errors_to_str())
+            raise ValueError(self._errors)
+
         return data
 
 
@@ -81,11 +83,13 @@ class EmployeeJsonValidator(Validator):
                 self.match_if_string_contains_non_negative_number(str(y), int) for y in x.values()),
             'company_id': lambda x: self.match_if_string_contains_non_negative_number(str(x), int),
         }
+
         for key, constraint in constraints.items():
             if result := self.validate_value(data, key, constraint):
                 self._errors[key] = result
         if len(self._errors) > 0:
-            raise ValueError(self.errors_to_str())
+            raise ValueError(self._errors)
+
         return data
 
 
@@ -101,9 +105,11 @@ class UserJsonValidator(Validator):
             'email': lambda x: self.match_regex(x, self.email_regex),
             'password': lambda x: self.match_regex(x, self.password_regex),
         }
+
         for key, constraint in constraints.items():
             if result := self.validate_value(data, key, constraint):
                 self._errors[key] = result
         if len(self._errors) > 0:
-            raise ValueError(self.errors_to_str())
+            raise ValueError(self._errors)
+
         return data

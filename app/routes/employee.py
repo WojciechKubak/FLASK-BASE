@@ -2,18 +2,18 @@ from app.service.employee import EmployeeService
 from app.security.token_required import token_required
 from flask_restful import Resource, reqparse
 from flask import make_response, Response
-from decimal import Decimal
 
 
 class EmployeeResource(Resource):
+
     parser = reqparse.RequestParser()
-    parser.add_argument('position', type=str, required=True, help='position field required')
-    parser.add_argument('age', type=int, required=True, help='age field required')
-    parser.add_argument('employment_tenure', type=int, required=True, help='employment_tenure field required')
-    parser.add_argument('department', type=str, required=True, help='department field required')
-    parser.add_argument('salary', type=Decimal, required=True, help='salary field required')
-    parser.add_argument('performance_rating', type=dict, required=True, help='performance_rating field required')
-    parser.add_argument('company_id', type=int, required=True, help='company_id field required')
+    parser.add_argument('position', type=str)
+    parser.add_argument('age', type=str)
+    parser.add_argument('employment_tenure', type=str)
+    parser.add_argument('department', type=str)
+    parser.add_argument('salary', type=str)
+    parser.add_argument('performance_rating', type=dict)
+    parser.add_argument('company_id', type=str)
 
     def get(self, full_name: str) -> Response:
         try:

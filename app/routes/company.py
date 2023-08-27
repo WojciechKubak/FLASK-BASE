@@ -5,12 +5,13 @@ from flask import make_response, Response
 
 
 class CompanyResource(Resource):
+
     parser = reqparse.RequestParser()
-    parser.add_argument('street', type=str, required=True, help='street field required')
-    parser.add_argument('city', type=str, required=True, help='city field required')
-    parser.add_argument('postal_code', type=str, required=True, help='postal_code code field required')
-    parser.add_argument('state', type=str, required=True, help='state field required')
-    parser.add_argument('country', type=str, required=True, help='country field required')
+    parser.add_argument('street', type=str)
+    parser.add_argument('city', type=str)
+    parser.add_argument('postal_code', type=str)
+    parser.add_argument('state', type=str)
+    parser.add_argument('country', type=str)
 
     def get(self, company_name: str) -> Response:
         try:
