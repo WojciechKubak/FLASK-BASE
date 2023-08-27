@@ -38,10 +38,11 @@ class EmployeeService:
 
         return employee
 
-    def delete_employee(self, name: str) -> None:
+    def delete_employee(self, name: str) -> int:
         if not (employee := EmployeeModel.find_by_name(name)):
             raise ValueError(EmployeeService.EMPLOYEE_NOT_FOUND_ERROR_MSG)
         employee.delete()
+        return employee.id
 
     def get_employee_by_name(self, name: str) -> EmployeeModel:
         if not (employee := EmployeeModel.find_by_name(name)):

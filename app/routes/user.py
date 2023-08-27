@@ -42,8 +42,8 @@ class UserResource(Resource):
     @token_required(['admin'])
     def delete(self, username: str) -> Response:
         try:
-            UserService().delete_user(username)
-            return make_response({'message': 'User deleted'})
+            id_ = UserService().delete_user(username)
+            return make_response({'message': f'Deleted user with id: {id_}'})
         except ValueError as e:
             return make_response({'message': e.args[0]}, 400)
 

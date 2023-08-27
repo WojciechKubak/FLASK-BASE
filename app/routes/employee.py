@@ -43,8 +43,8 @@ class EmployeeResource(Resource):
     @token_required(['user', 'admin'])
     def delete(self, full_name: str) -> Response:
         try:
-            EmployeeService().delete_employee(full_name)
-            return make_response({'message': 'Employee deleted'})
+            id_ = EmployeeService().delete_employee(full_name)
+            return make_response({'message': f'Deleted employee with id: {id_}'})
         except ValueError as e:
             return make_response({'message': e.args[0]}, 400)
 

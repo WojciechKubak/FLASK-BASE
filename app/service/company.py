@@ -32,10 +32,11 @@ class CompanyService:
         company.update(data)
         return company
 
-    def delete_company(self, name: str) -> None:
+    def delete_company(self, name: str) -> int:
         if not (company := CompanyModel.find_by_name(name)):
             raise ValueError(self.COMPANY_NOT_FOUND_ERROR_MSG)
         company.delete()
+        return company.id
 
     def get_company_by_name(self, name: str) -> CompanyModel:
         if not (company := CompanyModel.find_by_name(name)):

@@ -44,10 +44,11 @@ class UserService:
 
         return user
 
-    def delete_user(self, username: str) -> None:
+    def delete_user(self, username: str) -> int:
         if not (user := UserModel.find_by_username(username)):
             raise ValueError(self.USER_NOT_FOUND_ERROR_MSG)
         user.delete()
+        return user.id
 
     def activate_user(self, username: str) -> None:
         if user := UserModel.find_by_username(username):

@@ -41,8 +41,8 @@ class CompanyResource(Resource):
     @token_required(['user', 'admin'])
     def delete(self, company_name: str) -> Response:
         try:
-            CompanyService().delete_company(company_name)
-            return make_response({'message': 'Company deleted'})
+            id_ = CompanyService().delete_company(company_name)
+            return make_response({'message': f'Deleted company with id: {id_}'})
         except ValueError as e:
             return make_response({'message': e.args[0]}, 400)
 
