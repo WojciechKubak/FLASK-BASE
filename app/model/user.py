@@ -11,11 +11,13 @@ class UserModel(sa.Model):
     __tablename__ = 'users'
 
     id: Mapped[int] = mapped_column(sa.Integer(), primary_key=True)
-    username: Mapped[str]
-    email: Mapped[str]
-    password: Mapped[str]
-    role: Mapped[str] = mapped_column(default='User')
+
+    username: Mapped[str] = mapped_column(sa.String(255), nullable=False)
+    email: Mapped[str] = mapped_column(sa.String(255), nullable=True)
+    password: Mapped[str] = mapped_column(sa.String(255), nullable=False)
+    role: Mapped[str] = mapped_column(sa.String(255), default='User')
     is_active: Mapped[bool] = mapped_column(sa.Boolean(), default=False)
+
     created_at: Mapped[datetime] = mapped_column(insert_default=func.utc_timestamp())
     updated_at: Mapped[datetime] = mapped_column(default=func.utc_timestamp(), onupdate=func.utc_timestamp())
 

@@ -11,13 +11,15 @@ class CompanyModel(sa.Model):
     __tablename__ = 'companies'
 
     id: Mapped[int] = mapped_column(sa.Integer(), primary_key=True)
-    name: Mapped[str]
-    street: Mapped[str]
-    city: Mapped[str]
-    postal_code: Mapped[str]
-    state: Mapped[str]
-    country: Mapped[str]
+
+    name: Mapped[str] = mapped_column(sa.String(255), nullable=False)
+    street: Mapped[str] = mapped_column(sa.String(255), nullable=True)
+    city: Mapped[str] = mapped_column(sa.String(255), nullable=True)
+    postal_code: Mapped[str] = mapped_column(sa.String(255), nullable=True)
+    state: Mapped[str] = mapped_column(sa.String(255), nullable=True)
+    country: Mapped[str] = mapped_column(sa.String(255), nullable=True)
     employees: Mapped[list[EmployeeModel]] = sa.relationship(EmployeeModel, backref='companies')
+
     created_at: Mapped[datetime] = mapped_column(insert_default=func.utc_timestamp())
     updated_at: Mapped[datetime] = mapped_column(insert_default=func.utc_timestamp(), onupdate=func.utc_timestamp())
 

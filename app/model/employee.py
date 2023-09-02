@@ -11,14 +11,16 @@ class EmployeeModel(sa.Model):
     __tablename__ = 'employees'
 
     id: Mapped[int] = mapped_column(sa.Integer(), primary_key=True)
-    full_name: Mapped[str]
-    position: Mapped[str]
-    age: Mapped[int]
-    employment_tenure: Mapped[int]
-    department: Mapped[int]
-    salary: Mapped[Decimal]
-    performance_rating: Mapped[dict[str, Any]] = mapped_column(type_=sa.JSON)
-    company_id: Mapped[int] = mapped_column(sa.Integer, sa.ForeignKey('companies.id'))
+
+    full_name: Mapped[str] = mapped_column(sa.String(255), nullable=False)
+    position: Mapped[str] = mapped_column(sa.String(255), nullable=True)
+    age: Mapped[int] = mapped_column(sa.Integer(), nullable=True)
+    employment_tenure: Mapped[int] = mapped_column(sa.Integer(), default=0)
+    department: Mapped[str] = mapped_column(sa.String(255), nullable=True)
+    salary: Mapped[Decimal] = mapped_column(sa.Numeric(precision=8, scale=2), nullable=True)
+    performance_rating: Mapped[dict[str, Any]] = mapped_column(type_=sa.JSON, nullable=True)
+    company_id: Mapped[int] = mapped_column(sa.Integer, sa.ForeignKey('companies.id'), nullable=True)
+
     created_at: Mapped[datetime] = mapped_column(default=func.utc_timestamp())
     updated_at: Mapped[datetime] = mapped_column(default=func.utc_timestamp(), onupdate=func.utc_timestamp())
 
