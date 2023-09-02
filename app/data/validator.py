@@ -60,7 +60,7 @@ class CompanyJsonValidator(Validator):
             if result := self.validate_value(data, key, constraint):
                 self._errors[key] = result
         if len(self._errors) > 0:
-            raise ValueError(self._errors)
+            raise ValueError(self.errors_to_str())
 
         return data
 
@@ -88,7 +88,7 @@ class EmployeeJsonValidator(Validator):
             if result := self.validate_value(data, key, constraint):
                 self._errors[key] = result
         if len(self._errors) > 0:
-            raise ValueError(self._errors)
+            raise ValueError(self.errors_to_str())
 
         return data
 
@@ -110,6 +110,6 @@ class UserJsonValidator(Validator):
             if result := self.validate_value(data, key, constraint):
                 self._errors[key] = result
         if len(self._errors) > 0:
-            raise ValueError(self._errors)
+            raise ValueError(self.errors_to_str())
 
         return data
