@@ -1,5 +1,5 @@
 from app.web.configuration import flask_app
-from app.db.connection import MySQLConnectionPoolBuilder
+from app.config import BaseConfig, ProductionConfig, DevelopmentConfig
 from app.routes.company import CompanyResource, CompanyListResource
 from app.routes.employee import EmployeeResource, EmployeeListResource
 from app.routes.statistics import statistics_blueprint
@@ -8,10 +8,11 @@ from app.routes.user import UserResource, UserActivationResource, UserAdminRoleR
 from app.security.configuration import configure_security
 from app.db.configuration import sa
 from flask_jwt_extended import JWTManager
-from flask import jsonify
 from flask_restful import Api
 from jinja2 import PackageLoader, Environment
 from dotenv import load_dotenv
+from alembic.config import Config, command
+from flask import Response, make_response
 import app.signals
 import logging
 import ast
@@ -23,17 +24,25 @@ def create_app():
     logging.basicConfig(level=logging.INFO)
     load_dotenv()
 
+    match os.environ.get('APP_ENV'):
+        case 'production':
+            app_config = ProductionConfig()
+        case 'development':
+            app_config = DevelopmentConfig()
+        case _:
+            app_config = BaseConfig()
+
+    alembic_cfg = Config('alembic.ini')
+    alembic_cfg.set_main_option('sqlalchemy.url', app_config.SQLALCHEMY_DATABASE_URI)
+    command.upgrade(alembic_cfg, 'head')
+
     templates_env = Environment(loader=PackageLoader('app', 'templates'))
 
     with flask_app.app_context():
 
-        # database configuration
-        url = MySQLConnectionPoolBuilder().set_host('mysql').build_connection_string()
-        flask_app.config['SQLALCHEMY_DATABASE_URI'] = url
-        flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+        flask_app.config.from_object(app_config)
         sa.init_app(flask_app)
 
-        # security configuration
         jwt_settings = {
             'JWT_COOKIE_SECURE': ast.literal_eval(os.environ.get('JWT_COOKIE_SECURE')),
             'JWT_TOKEN_LOCATION': ast.literal_eval(os.environ.get('JWT_TOKEN_LOCATION')),
@@ -45,7 +54,6 @@ def create_app():
         flask_app.config.update(jwt_settings)
         jwt = JWTManager(flask_app)
 
-        # email configuration
         mail_settings = {
             'MAIL_SERVER': os.environ.get('MAIL_SERVER'),
             'MAIL_PORT': int(os.environ.get('MAIL_PORT')),
@@ -57,19 +65,16 @@ def create_app():
         flask_app.config.update(mail_settings)
         MailConfig.prepare_mail(flask_app, templates_env)
 
-        # configure security
         configure_security(flask_app)
 
-        # register blueprints
         flask_app.register_blueprint(statistics_blueprint)
 
         @flask_app.route('/')
-        def index():
-            return jsonify({'message': 'This is home page'})
+        def index() -> Response:
+            return make_response({'message': 'Home page'}, 200)
 
         api = Api(flask_app)
 
-        # register resources
         api.add_resource(CompanyListResource, '/companies')
         api.add_resource(CompanyResource, '/companies/<string:company_name>')
         api.add_resource(EmployeeListResource, '/employees')
