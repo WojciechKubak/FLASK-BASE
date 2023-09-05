@@ -15,9 +15,7 @@ class UserService:
         _user_constraints = json.loads(os.environ.get('USER_CONSTRAINTS'))
         self.user_validator = UserJsonValidator(**_user_constraints)
 
-    def add_user(self, data: dict[str, Any], is_admin: bool = False) -> None:
-        if data['password'] != data.pop('password_repeat'):
-            raise ValueError('Passwords must be the same')
+    def add_user(self, data: dict[str, Any], is_admin: bool = False) -> UserModel:
         if UserModel.find_by_username(data['username']):
             raise ValueError('Username is already in use')
         if UserModel.find_by_email(data['email']):
@@ -32,11 +30,11 @@ class UserService:
         user = UserModel(**data)
         user.add()
 
+        return user
+
     def update_user(self, data: dict[str, Any]) -> UserModel:
         if not (user := UserModel.find_by_username(data['username'])):
             raise ValueError(self.USER_NOT_FOUND_ERROR_MSG)
-        if data['password'] != data['password_repeat']:
-            raise ValueError('Passwords must be the same')
 
         self.user_validator.validate(data)
         data['password'] = generate_password_hash(data['password'])

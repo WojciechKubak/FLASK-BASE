@@ -10,7 +10,6 @@ class UserResource(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('email', type=str, required=True, help='email field required')
     parser.add_argument('password', type=str, required=True, help='password field required')
-    parser.add_argument('password_repeat', type=str, required=True, help='password_repeat field required')
 
     @token_required(['admin'])
     def get(self, username: str) -> Response:
