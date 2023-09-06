@@ -24,6 +24,9 @@ class EmployeeModel(sa.Model):
     created_at: Mapped[datetime] = mapped_column(default=func.utc_timestamp())
     updated_at: Mapped[datetime] = mapped_column(default=func.utc_timestamp(), onupdate=func.utc_timestamp())
 
+    def __eq__(self, other: Self) -> bool:
+        return self.to_dict() == other.to_dict()
+
     def to_dict(self) -> dict[str, Any]:
         return {
             'id': self.id,
@@ -32,7 +35,7 @@ class EmployeeModel(sa.Model):
             'age': self.age,
             'employment_tenure': self.employment_tenure,
             'department': self.department,
-            'salary': float(self.salary),
+            'salary': float(self.salary) if self.salary else None,
             'performance_rating': self.performance_rating,
             'company_id': self.company_id
         }

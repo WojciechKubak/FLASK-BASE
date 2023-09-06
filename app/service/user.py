@@ -1,8 +1,8 @@
 from app.model.user import UserModel
 from app.data.validator import UserJsonValidator
-from werkzeug.security import generate_password_hash
 from dataclasses import dataclass
 from typing import Any, ClassVar
+from werkzeug.security import generate_password_hash
 import json
 import os
 
@@ -20,12 +20,12 @@ class UserService:
             raise ValueError('User already exists')
         self._user_validator.validate(data)
 
-        data['password'] = generate_password_hash(data['password'])
         data['role'] = 'Admin' if is_admin else 'User'
         data['is_active'] = True if is_admin else False
 
-        user = UserModel(**data)
+        user = UserModel.from_dict(data)
         user.add()
+
         return user
 
     def update_user(self, data: dict[str, Any]) -> UserModel:

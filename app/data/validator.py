@@ -55,7 +55,6 @@ class CompanyJsonValidator(Validator):
             'state': lambda x: self.match_regex(x, self.state_regex),
             'country': lambda x: self.match_regex(x, self.country_regex),
         }
-
         for key, constraint in constraints.items():
             if result := self.validate_value(data, key, constraint):
                 self._errors[key] = result

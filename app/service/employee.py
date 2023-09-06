@@ -28,10 +28,10 @@ class EmployeeService:
         return employee
 
     def update_employee(self, data: dict[str, Any]) -> EmployeeModel:
-        if not CompanyModel.find_by_id(data['company_id']):
-            raise ValueError('Company id not found')
         if not (employee := EmployeeModel.find_by_name(data['full_name'])):
             raise ValueError(EmployeeService.EMPLOYEE_NOT_FOUND_ERROR_MSG)
+        if not CompanyModel.find_by_id(data['company_id']):
+            raise ValueError('Company id not found')
 
         self.employee_validator.validate(data)
         employee.update(data)
