@@ -42,12 +42,6 @@ def department_employee_salary_overview() -> Response:
     return make_response({department: float(salary) for department, salary in salaries.items()}, 200)
 
 
-@salaries_blueprint.route('/', methods=['GET'])
-def employees_salary_average_mean() -> Response:
-    average_mean = StatisticsService().get_employees_salary_average_mean()
-    return make_response({'average_salary': float(average_mean)}, 200)
-
-
 @salaries_blueprint.route('/highest', methods=['GET'])
 def employees_with_highest_salary() -> Response:
     employees = StatisticsService().get_employees_with_highest_or_lowest_salary()

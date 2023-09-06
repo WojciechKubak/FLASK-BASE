@@ -1,5 +1,5 @@
+from app.security.token_required import jwt_required_with_roles
 from app.service.employee import EmployeeService
-from app.security.token_required import token_required
 from flask_restful import Resource, reqparse
 from flask import make_response, Response
 
@@ -22,7 +22,7 @@ class EmployeeResource(Resource):
         except ValueError as e:
             return make_response({'message': e.args[0]}, 400)
 
-    @token_required(['user', 'admin'])
+    @jwt_required_with_roles(['user', 'admin'])
     def post(self, full_name: str) -> Response:
         data = EmployeeResource.parser.parse_args()
         try:
@@ -31,7 +31,7 @@ class EmployeeResource(Resource):
         except ValueError as e:
             return make_response({'message': e.args[0]}, 400)
 
-    @token_required(['user', 'admin'])
+    @jwt_required_with_roles(['user', 'admin'])
     def put(self, full_name: str) -> Response:
         data = EmployeeResource.parser.parse_args()
         try:
@@ -40,7 +40,7 @@ class EmployeeResource(Resource):
         except ValueError as e:
             return make_response({'message': e.args[0]}, 400)
 
-    @token_required(['user', 'admin'])
+    @jwt_required_with_roles(['user', 'admin'])
     def delete(self, full_name: str) -> Response:
         try:
             id_ = EmployeeService().delete_employee(full_name)
@@ -57,7 +57,7 @@ class EmployeeListResource(Resource):
         employees = EmployeeService().get_all_employees()
         return make_response({'employees': [employee.to_dict() for employee in employees]}, 200)
 
-    @token_required(['user', 'admin'])
+    @jwt_required_with_roles(['user', 'admin'])
     def post(self) -> Response:
         parsed = EmployeeListResource.parser.parse_args()
         try:
