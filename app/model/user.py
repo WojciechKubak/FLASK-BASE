@@ -1,5 +1,5 @@
 from app.db.configuration import sa
-from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import check_password_hash
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import func
 from datetime import datetime
@@ -46,11 +46,6 @@ class UserModel(sa.Model):
     def delete(self) -> None:
         sa.session.delete(self)
         sa.session.commit()
-
-    @classmethod
-    def from_dict(cls: Self, data: dict[str, Any]) -> Self:
-        data['password'] = generate_password_hash(data['password'])
-        return cls(**data)
 
     @classmethod
     def find_by_username(cls: Self, username: str) -> Self:

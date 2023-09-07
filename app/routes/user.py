@@ -66,7 +66,7 @@ class UserAdminRoleResource(Resource):
     def post(self, username: str) -> Response:
         data = UserResource.parser.parse_args()
         try:
-            UserService().add_user(data | {'username': username}, is_admin=True)
+            UserService().add_admin(data | {'username': username})
             return make_response({'message': 'Admin account created'}, 201)
         except ValueError as e:
             return make_response({'message': e.args[0]}, 400)

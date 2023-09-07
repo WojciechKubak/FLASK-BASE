@@ -15,15 +15,22 @@ class UserService:
         user_constraints = json.loads(os.environ.get('USER_CONSTRAINTS'))
         self._user_validator = UserJsonValidator(**user_constraints)
 
-    def add_user(self, data: dict[str, Any], is_admin: bool = False) -> UserModel:
+    def add_user(self, data: dict[str, Any]) -> UserModel:
         if UserModel.find_by_username(data['username']) or UserModel.find_by_email(data['email']):
             raise ValueError('User already exists')
         self._user_validator.validate(data)
 
-        data['role'] = 'Admin' if is_admin else 'User'
-        data['is_active'] = True if is_admin else False
+        user = UserModel(**data | {'password': generate_password_hash(data['password'])})
+        user.add()
 
-        user = UserModel.from_dict(data)
+        return user
+
+    def add_admin(self, data: dict[str, Any]) -> UserModel:
+        if UserModel.find_by_username(data['username']) or UserModel.find_by_email(data['email']):
+            raise ValueError('User already exists')
+        self._user_validator.validate(data)
+
+        user = UserModel(**data, is_active=True, role='Admin')
         user.add()
 
         return user
