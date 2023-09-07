@@ -1,8 +1,8 @@
 from app.model.user import UserModel
+from app.security.configuration import bcrypt
 from app.data.validator import UserJsonValidator
 from dataclasses import dataclass
 from typing import Any, ClassVar
-from werkzeug.security import generate_password_hash
 import json
 import os
 
@@ -20,7 +20,8 @@ class UserService:
             raise ValueError('User already exists')
         self._user_validator.validate(data)
 
-        user = UserModel(**data | {'password': generate_password_hash(data['password'])})
+        hashed_password = bcrypt.generate_password_hash(data.pop('password'))
+        user = UserModel(**data, password=hashed_password)
         user.add()
 
         return user
@@ -30,7 +31,8 @@ class UserService:
             raise ValueError('User already exists')
         self._user_validator.validate(data)
 
-        user = UserModel(**data, is_active=True, role='Admin')
+        hashed_password = bcrypt.generate_password_hash(data.pop('password'))
+        user = UserModel(**data, password=hashed_password, is_active=True, role='Admin')
         user.add()
 
         return user
@@ -39,7 +41,7 @@ class UserService:
         if not (user := UserModel.find_by_username(data['username'])):
             raise ValueError(self.USER_NOT_FOUND_ERROR_MSG)
         self._user_validator.validate(data)
-        user.update(data | {'password': generate_password_hash(data['password'])})
+        user.update(data | {'password': bcrypt.generate_password_hash(data['password'])})
         return user
 
     def delete_user(self, username: str) -> int:

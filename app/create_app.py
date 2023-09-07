@@ -3,7 +3,7 @@ from app.routes.company import CompanyResource, CompanyListResource
 from app.routes.employee import EmployeeResource, EmployeeListResource
 from app.routes.statistics import statistics_blueprint
 from app.email.configuration import MailConfig
-from app.security.configuration import configure_security
+from app.security.configure_security import configure_security
 from app.db.configuration import sa
 from app.web.configuration import flask_app
 from app.db.connection import ConnectionPoolBuilder

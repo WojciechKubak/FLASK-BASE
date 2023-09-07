@@ -1,5 +1,6 @@
+from app.security.configuration import bcrypt
 from app.db.configuration import sa
-from werkzeug.security import check_password_hash
+
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import func
 from datetime import datetime
@@ -41,7 +42,7 @@ class UserModel(sa.Model):
         sa.session.commit()
 
     def check_password(self, password: str) -> bool:
-        return check_password_hash(self.password, password)
+        return bcrypt.check_password_hash(self.password, password)
 
     def delete(self) -> None:
         sa.session.delete(self)
