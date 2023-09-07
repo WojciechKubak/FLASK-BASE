@@ -57,8 +57,6 @@ services:
       context: .
       dockerfile: Dockerfile
     command: gunicorn --bind 0.0.0.0:8000 --workers 4 'app.create_app:create_app()' --reload
-    environment:
-      - APP_ENV=development
     volumes:
       - ./:/webapp
     depends_on:

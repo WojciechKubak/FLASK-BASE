@@ -1,5 +1,4 @@
 from app.routes.user import UserResource, UserActivationResource, UserAdminRoleResource
-from app.config import BaseConfig, ProductionConfig, DevelopmentConfig
 from app.routes.company import CompanyResource, CompanyListResource
 from app.routes.employee import EmployeeResource, EmployeeListResource
 from app.routes.statistics import statistics_blueprint
@@ -7,6 +6,7 @@ from app.email.configuration import MailConfig
 from app.security.configuration import configure_security
 from app.db.configuration import sa
 from app.web.configuration import flask_app
+from app.db.connection import ConnectionPoolBuilder
 
 from flask_jwt_extended import JWTManager
 from flask_restful import Api
@@ -58,15 +58,12 @@ def create_app() -> Flask:
 
 
 def setup_config(app: Flask) -> None:
-    match os.environ.get('APP_ENV', None):
-        case 'production':
-            app_config = ProductionConfig()
-        case 'development':
-            app_config = DevelopmentConfig()
-        case _:
-            app_config = BaseConfig()
-
-    app.config.from_object(app_config)
+    url = ConnectionPoolBuilder.builder().set_host('mysql').build_connection_string()
+    config = {
+        'SQLALCHEMY_DATABASE_URI': url,
+        'SQLALCHEMY_TRACK_MODIFICATIONS': False
+    }
+    app.config.update(config)
     sa.init_app(app)
 
 
