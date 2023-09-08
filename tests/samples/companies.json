@@ -1,0 +1,26 @@
+[
+   {
+      "name": "ABC Corporation",
+      "street": "123 Main St",
+      "city": "New York",
+      "postal_code": "10001",
+      "state": "NY",
+      "country": "USA"
+   },
+   {
+      "name": "XYZ Inc.",
+      "street": "456 Elm St",
+      "city": "Los Angeles",
+      "postal_code": "90001",
+      "state": "CA",
+      "country": "USA"
+   },
+  {
+    "name": "Global Enterprises",
+    "street": "901 Cedar Rd",
+    "city": "City",
+    "postal_code": "54321",
+    "state": "CA",
+    "country": "USA"
+  }
+]

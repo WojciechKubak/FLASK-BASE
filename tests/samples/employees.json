@@ -1,0 +1,44 @@
+[
+   {
+      "full_name": "John Doe",
+      "position": "Senior Developer",
+      "age": 32,
+      "employment_tenure": 5,
+      "department": "Research and Development",
+      "salary": 45000,
+      "performance_rating": {
+         "efficiency": 5,
+         "creativity": 5,
+         "communication": 5
+      },
+      "company_id": 1
+   },
+   {
+      "full_name": "Jane Smith",
+      "position": "Human Resources Manager",
+      "age": 40,
+      "employment_tenure": 8,
+      "department": "Human Resources",
+      "salary": 62000,
+      "performance_rating": {
+         "efficiency": 3,
+         "creativity": 4,
+         "communication": 5
+      },
+      "company_id": 2
+   },
+   {
+    "full_name": "Sophia Davis",
+    "position": "Marketing Manager",
+    "age": 33,
+    "employment_tenure": 6,
+    "department": "Sales and Marketing",
+    "salary": 80000,
+    "performance_rating": {
+       "efficiency": 5,
+       "creativity": 4,
+       "communication": 5
+    },
+    "company_id": 3
+   }
+]
