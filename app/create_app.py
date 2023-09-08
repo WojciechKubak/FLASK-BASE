@@ -6,7 +6,7 @@ from app.email.configuration import MailConfig
 from app.security.configure_security import configure_security
 from app.db.configuration import sa
 from app.web.configuration import flask_app
-from app.db.connection import ConnectionPoolBuilder
+from app.config import BaseConfig, DevelopmentConfig, ProductionConfig
 
 from flask_jwt_extended import JWTManager
 from flask_restful import Api
@@ -29,6 +29,9 @@ def create_app() -> Flask:
     setup_config(flask_app)
 
     with flask_app.app_context():
+
+        # database
+        sa.init_app(flask_app)
 
         # security
         setup_security(flask_app)
@@ -58,13 +61,14 @@ def create_app() -> Flask:
 
 
 def setup_config(app: Flask) -> None:
-    url = ConnectionPoolBuilder.builder().set_host('mysql').build_connection_string()
-    config = {
-        'SQLALCHEMY_DATABASE_URI': url,
-        'SQLALCHEMY_TRACK_MODIFICATIONS': False
-    }
-    app.config.update(config)
-    sa.init_app(app)
+    match os.environ.get('APP_CONFIG'):
+        case 'development':
+            config = DevelopmentConfig
+        case 'production':
+            config = ProductionConfig
+        case _:
+            config = BaseConfig
+    app.config.from_object(config)
 
 
 def setup_security(app: Flask) -> None:

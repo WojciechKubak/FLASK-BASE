@@ -1,7 +1,8 @@
-from app.db.connection import ConnectionPoolBuilder
+from app.config import BaseConfig, DevelopmentConfig, ProductionConfig
 from logging.config import fileConfig
 from sqlalchemy import pool, create_engine
 from alembic import context
+import os
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -23,7 +24,14 @@ target_metadata = None
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
-url = ConnectionPoolBuilder.builder().build_connection_string()
+
+match os.environ.get('APP_CONFIG'):
+    case 'development':
+        url = DevelopmentConfig.SQLALCHEMY_DATABASE_URI
+    case 'production':
+        url = ProductionConfig.SQLALCHEMY_DATABASE_URI
+    case _:
+        url = BaseConfig.SQLALCHEMY_DATABASE_URI
 
 
 def run_migrations_offline() -> None:
