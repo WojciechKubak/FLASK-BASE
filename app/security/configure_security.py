@@ -5,9 +5,23 @@ from flask_jwt_extended import create_access_token, create_refresh_token, \
 
 
 def configure_security(app: Flask) -> None:
+    """
+    Configure security-related endpoints and JWT authentication for the Flask app.
 
+    Args:
+        app (Flask): The Flask app to configure.
+
+    Returns:
+        None
+    """
     @app.route("/login", methods=["POST"])
     def login() -> Response:
+        """
+        Handle user login and issue JWT tokens.
+
+        Returns:
+            Response: A response indicating whether the login was successful or an error message.
+        """
         try:
             data = request.get_json()
             username, password = data.get('username'), data.get('password')
@@ -31,6 +45,12 @@ def configure_security(app: Flask) -> None:
 
     @app.route("/logout", methods=["POST"])
     def logout() -> Response:
+        """
+        Handle user logout by unsetting JWT cookies.
+
+        Returns:
+            Response: A response indicating whether the logout was successful.
+        """
         response = make_response({'message': "Logout successful"})
         unset_jwt_cookies(response)
         return response

@@ -6,6 +6,15 @@ from typing import Callable, Any
 
 
 def jwt_required_with_roles(roles: list[str]) -> Callable:
+    """
+    Decorator for requiring JWT authentication with specific roles.
+
+    Args:
+        roles (list[str]): A list of role names that are allowed to access the protected endpoint.
+
+    Returns:
+        Callable: A decorator function that can be used to protect Flask routes.
+    """
     def decorator(fn: Callable) -> Callable:
         @wraps(fn)
         def decorated(*args: tuple[Any], **kwargs: dict[str, Any]):

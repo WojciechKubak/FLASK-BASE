@@ -21,6 +21,12 @@ import os
 
 
 def create_app() -> Flask:
+    """
+    Create and configure a Flask application instance.
+
+    Returns:
+        Flask: The configured Flask application.
+    """
     logging.basicConfig(level=logging.INFO)
 
     # configuration
@@ -30,19 +36,15 @@ def create_app() -> Flask:
 
     with flask_app.app_context():
 
-        # database
         sa.init_app(flask_app)
 
-        # security
         setup_security(flask_app)
         JWTManager(flask_app)
         configure_security(flask_app)
 
-        # mail
         setup_mail(flask_app)
         MailConfig.prepare_mail(flask_app, templates_env)
 
-        # routes
         api = Api(flask_app)
         api.add_resource(CompanyListResource, '/companies')
         api.add_resource(CompanyResource, '/companies/<string:company_name>')
@@ -61,6 +63,12 @@ def create_app() -> Flask:
 
 
 def setup_config(app: Flask) -> None:
+    """
+    Set up the application configuration based on the selected environment.
+
+    Args:
+        app (Flask): The Flask application instance.
+    """
     match os.environ.get('APP_CONFIG'):
         case 'development':
             config = DevelopmentConfig
@@ -72,6 +80,12 @@ def setup_config(app: Flask) -> None:
 
 
 def setup_security(app: Flask) -> None:
+    """
+    Set up security-related configuration for the Flask application.
+
+    Args:
+        app (Flask): The Flask application instance.
+    """
     jwt_settings = {
         'JWT_COOKIE_SECURE': ast.literal_eval(os.environ.get('JWT_COOKIE_SECURE')),
         'JWT_TOKEN_LOCATION': ast.literal_eval(os.environ.get('JWT_TOKEN_LOCATION')),
@@ -84,6 +98,12 @@ def setup_security(app: Flask) -> None:
 
 
 def setup_mail(app: Flask) -> None:
+    """
+    Set up email-related configuration for the Flask application.
+
+    Args:
+        app (Flask): The Flask application instance.
+    """
     mail_settings = {
         'MAIL_SERVER': os.environ.get('MAIL_SERVER'),
         'MAIL_PORT': int(os.environ.get('MAIL_PORT')),
