@@ -53,34 +53,50 @@ The entire application is containerized using Docker, simplifying deployment and
    USER_CONSTRAINTS=your_user_constraints
    ```
 
+
 ## 🚀 Running
 To run this application locally, follow these steps:
 
-1. **Prerequisites**:
+1. **Prerequisites**
    - Make sure you have Docker and Docker Compose installed on your system. If not, you can download and install them from the official Docker website: [Docker Installation](https://www.docker.com/get-started).
-2. **Clone the Repository**:
+2. **Clone the Repository**
    ```shell
    git clone <repository_name>
    ```
-3. **Navigate to the Project's Root Directory**:
+3. **Navigate to the Project's Root Directory**
    ```shell
    cd <project_root_directory>
    ```
-4. **Configure Environment Variables**:
+4. **Configure Environment Variables**
    - Create a `.env` file in the project's root directory and configure the necessary environment variables. You can use the provided `.env.example` file as a template.
-5. **Build and Start Docker Containers**:
+5. **Build and Start Docker Containers**
    - Run the following command to build and start the Docker containers for the application:
      ```shell
      docker-compose up -d --build
      ```
-6. **Apply Database Migrations**:
-   - After the containers are up and running, apply the database migrations using Alembic. Replace `a7` with the actual name of your Flask container:
+6. **Apply Database Migrations**
+   - After the containers are up and running, apply the database migrations using Alembic.
      ```shell
-     docker exec -it <flask_container_name> alembic upgrade head
+     docker exec -it <flask_container> alembic upgrade head
      ```
-7. **Access the Application**:
+7. **Access the Application**
    - Your application should now be accessible at [http://localhost:8000](http://localhost:8000). You can explore the API endpoints and use the Postman collection for testing and interacting with the application.
 
+## Tests 🧪
+To run tests in the project, use the following command:
+
+ ```shell
+ pipenv run pytest \tests
+ ```
+
+Generating HTML Code Coverage Report
+You can also generate an HTML code coverage report using the following command:
+
+```shell
+pipenv run coverage html
+```
+
+The report will be generated in the htmlcov directory in the project's root directory. You can open the index.html file in a web browser to view a detailed code coverage report.
 
 ## 📖 Documentation
 
