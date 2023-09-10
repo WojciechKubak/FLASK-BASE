@@ -1,0 +1,643 @@
+{
+	"info": {
+		"_postman_id": "895f3f2a-f40b-4d03-8764-ece792db1839",
+		"name": "endpoints",
+		"description": "Flask app available endpoints with examples.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28704691"
+	},
+	"item": [
+		{
+			"name": "COMPANY",
+			"item": [
+				{
+					"name": "ADD COMPANY",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"street\": \"123 Main St\",\r\n    \"city\": \"New York\",\r\n    \"postal_code\": \"12345\",\r\n    \"state\": \"NY\",\r\n    \"country\": \"USA\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:80/companies/ABCDEFG",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"companies",
+								"ABCDEFG"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET COMPANY",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:80/companies/ABCDEFG",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"companies",
+								"ABCDEFG"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE COMPANY",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"street\": \"123 Main St\",\r\n    \"city\": \"New York\",\r\n    \"postal_code\": \"54321\",\r\n    \"state\": \"NY\",\r\n    \"country\": \"USA\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:80/companies/ABCDEFG",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"companies",
+								"ABCDEFG"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE COMPANY",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:80/companies/ABCDEFG",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"companies",
+								"ABCDEFG"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "EMPLOYEE",
+			"item": [
+				{
+					"name": "ADD EMPLOYEE",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "   {\r\n      \"position\": \"Senior Developer\",\r\n      \"employment_tenure\": 5,\r\n      \"department\": \"Research and Development\",\r\n      \"salary\": 90000,\r\n      \"performance_rating\": {\r\n         \"efficiency\": 3,\r\n         \"creativity\": 5,\r\n         \"communication\": 4\r\n      },\r\n      \"company_id\": 1\r\n   }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:80/employees/David Smith",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"employees",
+								"David Smith"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET EMPLOYEE",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:80/employees/David Smith",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"employees",
+								"David Smith"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE EMPLOYEE",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "   {\r\n      \"position\": \"Senior Developer\",\r\n      \"age\": 32,\r\n      \"employment_tenure\": 5,\r\n      \"department\": \"Research and Development\",\r\n      \"salary\": 85000,\r\n      \"performance_rating\": {\r\n         \"efficiency\": 4,\r\n         \"creativity\": 5,\r\n         \"communication\": 4\r\n      },\r\n      \"company_id\": 1\r\n   }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:80/employees/David Smith",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"employees",
+								"David Smith"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE EMPLOYEE",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:80/employees/David Smith",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"employees",
+								"David Smith"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "COMPANIES",
+			"item": [
+				{
+					"name": "GET COMPANIES",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:80/companies",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"companies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ADD COMPANIES",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"companies\": [\r\n        {\r\n            \"name\": \"Acme Corporation\",\r\n            \"street\": \"789 Pine St\",\r\n            \"city\": \"City\",\r\n            \"postal_code\": \"12345\",\r\n            \"state\": \"CA\",\r\n            \"country\": \"USA\"\r\n        },\r\n        {\r\n            \"name\": \"XYZ Inc.\",\r\n            \"street\": \"456 Elm St\",\r\n            \"city\": \"City\",\r\n            \"postal_code\": \"678190\",\r\n            \"state\": \"NY\",\r\n            \"country\": \"USA\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:80/companies",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"companies"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "EMPLOYEES",
+			"item": [
+				{
+					"name": "GET EMPLOYEES",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:80/employees",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ADD EMPLOYEES",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employees\": [\r\n           {\r\n                \"full_name\": \"Jane Smith\",\r\n                \"position\": \"Human Resources Manager\",\r\n                \"age\": 40,\r\n                \"employment_tenure\": 8,\r\n                \"department\": \"Human Resources\",\r\n                \"salary\": 9000,\r\n                \"performance_rating\": {\r\n                    \"efficiency\": 3,\r\n                    \"creativity\": 4,\r\n                    \"communication\": 5\r\n                },\r\n                \"company_id\": 1\r\n            },\r\n            {\r\n                \"full_name\": \"Michael Johnson\",\r\n                \"position\": \"Sales Representative\",\r\n                \"age\": 28,\r\n                \"employment_tenure\": 3,\r\n                \"department\": \"Sales and Marketing\",\r\n                \"salary\": 5000,\r\n                \"performance_rating\": {\r\n                    \"efficiency\": 4,\r\n                    \"creativity\": 3,\r\n                    \"communication\": 4\r\n                },\r\n                \"company_id\": 2\r\n            }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:80/employees",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"employees"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "STATISTICS",
+			"item": [
+				{
+					"name": "EMPLOYEE OVERALL PERFORMANCE",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:80/statistics/employees/performance",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"statistics",
+								"employees",
+								"performance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BEST PERFORMING EMPLOYEES",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:80/statistics/employees/best",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"statistics",
+								"employees",
+								"best"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "WORST PERFORMING EMPLOYEES",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:80/statistics/employees/worst",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"statistics",
+								"employees",
+								"worst"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DEPARTMENTS OVERALL PERFORMANCE",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:80/statistics/departments/performance",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"statistics",
+								"departments",
+								"performance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EMPLOYEES AVERAGE SALARY",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:80/statistics/employees/salaries",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"statistics",
+								"employees",
+								"salaries"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DEPARTMENTS AVERAGE SALARY",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:80/statistics/departments/salary",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"statistics",
+								"departments",
+								"salary"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EMPLOYEES WITH HIGHEST SALARY",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:80/statistics/employees/salaries/highest",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"statistics",
+								"employees",
+								"salaries",
+								"highest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EMPLOYEES WITH LOWEST SALARY",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:80/statistics/employees/salaries/lowest",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"statistics",
+								"employees",
+								"salaries",
+								"lowest"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "USER",
+			"item": [
+				{
+					"name": "ADD USER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"user@example.com\",\r\n    \"password\": \"Pa$$word12\",\r\n    \"password_repeat\": \"Pa$$word12\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:80/users/User",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"users",
+								"User"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET USER",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:80/users/Username",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"users",
+								"Username"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ADD ADMIN",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"Pa$$word1\",\r\n    \"password_repeat\": \"Pa$$word1\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:80/admin/TestAdminUser",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"admin",
+								"TestAdminUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE USER",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"new@example@.com\",\r\n    \"password\": \"Pa$$word123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost/users/User",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"users",
+								"User"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SECURITY",
+			"item": [
+				{
+					"name": "LOGIN",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"TestUserAdmin\",\r\n    \"password\": \"Pa$$word1\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:80/login",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LOGOUT",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:80/logout",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
